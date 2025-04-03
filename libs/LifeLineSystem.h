@@ -1,4 +1,21 @@
 #include <bits/stdc++.h>
+#include "Questions.h"
 using namespace std;
 
 
+class LifeLineSystem {
+private:
+    bool fiftyFiftyUsed;
+    bool phoneFriendUsed;
+    bool audiencePollUsed;
+
+public:
+    LifeLineSystem() {}
+    ~LifeLineSystem() {}
+    void useFiftyFifty(Question& currentQuestion);                // Hides 2 wrong answers
+    void usePhoneFriend(const Question& q);                       // Simulates a "hint"
+    void useAudiencePoll(const Question& q);                      // Simulates audience's suggestion in a poll (%)
+    bool isAudiencePollUsed() const { return audiencePollUsed; }
+    bool isFifyFiftyUsed() const { return fiftyFiftyUsed; }
+    bool isPhoneFriendUsed() const { return phoneFriendUsed; }
+};
