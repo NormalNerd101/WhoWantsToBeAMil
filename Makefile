@@ -1,8 +1,8 @@
-# Makefile for WhoWantsToBeAMil project
+# Makefile for WhoWantsToBeAMil (C++ version)
 
 # Compiler and flags
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c11 -g
+CXX = g++
+CXXFLAGS = -Wall -Wextra -std=c++20 -g -Ilibs
 
 # Directories
 SRC_DIR = src
@@ -13,23 +13,23 @@ BIN_DIR = bin
 TARGET = $(BIN_DIR)/WhoWantsToBeAMil
 
 # Source and object files
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
 
 # Default target
 all: $(TARGET)
 
-# Build target
+# Link object files into the final binary
 $(TARGET): $(OBJS)
 	@mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
-# Compile source files to object files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+# Compile .cpp files to .o object files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Clean up build files
+# Clean object and binary files
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
