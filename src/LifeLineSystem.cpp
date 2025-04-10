@@ -72,8 +72,7 @@ void LifeLineSystem::useAudiencePoll(const Question& q) {
 void displayAudiencePoll(const vector<int>& percentages) {
     cout << "\nAudience Poll Results:\n";
     for (int i = 0; i < 4; i++) {
-        cout << char('A' + i) << ": " << percentages[i] << "% ["
-                << string(percentages[i] / 2, '#') << "]\n"; // Visual bar
+        cout << char('A' + i) << ": " << percentages[i] << "% ["<< string(percentages[i] / 2, '#') << "]\n"; // Visual bar
     }
 }
 
