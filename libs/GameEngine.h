@@ -8,7 +8,7 @@ using namespace std;
 class GameEngine {
 private:
   vector<Question> questionBank;
-  LifelineSystem lifelines;
+  LifeLineSystem lifelines;
   PrizeTier prizes;
   int loadQuestionsFromFile(const string& filename); // Initialize questions
 
