@@ -1,3 +1,4 @@
+# pragma once
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -30,4 +31,5 @@ public:
   string getCurrentPrize() const;
   int getCurrentLevel() const;
   bool isSafeHaven(int level) const; // Check if level is a safe point
+  void updatePrizeTier(int prizeAmount);
 };

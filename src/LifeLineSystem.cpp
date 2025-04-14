@@ -1,6 +1,7 @@
 #include "LifeLineSystem.h"
 
 
+
 void LifeLineSystem::useFiftyFifty(Question& q) {
     if (fiftyFiftyUsed) {
         cout << "50:50 lifeline already used!" << endl;
@@ -9,9 +10,10 @@ void LifeLineSystem::useFiftyFifty(Question& q) {
     fiftyFiftyUsed = true;
     // display two options, one is correct.
     string wrongOption = q.getOneWrongOption();
-    string correctOption = q.getCorrectOption();
+    int correctOption = q.getCorrectOption();
+    string correctAnswer = q.getOptions()[correctOption];
     cout << "50:50 Lifeline used! The remaining options are:" << endl;
-    cout << "1. " << correctOption << endl;
+    cout << "1. " << correctAnswer << endl;
     cout << "2. " << wrongOption << endl;
 }
 
@@ -24,6 +26,13 @@ void LifeLineSystem::usePhoneFriend(const Question& q) {
     phoneFriendUsed = true;
     cout << "Yo, I think I read this somewhere. I think the answer is: " << q.getCorrectOption() << endl;
     cout << "Good luck!" << endl;
+}
+
+void displayAudiencePoll(const vector<int>& percentages) {
+    cout << "\nAudience Poll Results:\n";
+    for (int i = 0; i < 4; i++) {
+        cout << char('A' + i) << ": " << percentages[i] << "% ["<< string(percentages[i] / 2, '#') << "]\n"; // Visual bar
+    }
 }
 
 
@@ -69,10 +78,18 @@ void LifeLineSystem::useAudiencePoll(const Question& q) {
     displayAudiencePoll(percentages);
 }
 
-void displayAudiencePoll(const vector<int>& percentages) {
-    cout << "\nAudience Poll Results:\n";
-    for (int i = 0; i < 4; i++) {
-        cout << char('A' + i) << ": " << percentages[i] << "% ["<< string(percentages[i] / 2, '#') << "]\n"; // Visual bar
-    }
-}
 
+string LifeLineSystem::getAvailableLifeLines() {
+    cout << "Available Lifelines: " << endl;
+    string output_text = "";
+    if (!fiftyFiftyUsed) {
+        output_text += "1. 50:50  ";
+    }
+    if (!phoneFriendUsed) {
+        output_text += "2. Phone a Friend  ";
+    }
+    if (!audiencePollUsed) {
+        output_text += "3. Audience Poll ";
+    }
+    return output_text;
+}

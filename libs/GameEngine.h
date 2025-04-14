@@ -1,3 +1,4 @@
+# pragma once
 #include <bits/stdc++.h>
 #include "Questions.h"
 #include "LifeLineSystem.h"
@@ -10,11 +11,11 @@ private:
   vector<Question> questionBank;
   LifeLineSystem lifelines;
   PrizeTier prizes;
-  int loadQuestionsFromFile(const string& filename); // Initialize questions
-
+  
 public:
   void startGame();
   void displayMainMenu();
   void handleAnswer(int choice, Question& q);
   void processGameLogic(); // Main loop
+  int loadQuestionsFromFile(const string& filename); // Initialize questions
 };
