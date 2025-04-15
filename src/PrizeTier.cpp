@@ -1,6 +1,6 @@
 
 //PrizeTier.cpp
-#include "PrizeTier.h"
+#include "PrizeTier.hpp"
 
 // Tăng cấp độ khi người chơi trả lời đúng
 void PrizeTier::advanceLevel() {
