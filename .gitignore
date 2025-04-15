@@ -40,3 +40,7 @@
 ## local testing files
 test.cpp
 test
+
+## text files
+*.txt
+*.log
