@@ -13,6 +13,7 @@ private:
 
 public:
   Question() {}
+  Question(string q, string a, string b, string c, string d, int correct, int level);
   ~Question() {}
   
   // getter
@@ -32,8 +33,10 @@ public:
     options[2] = opt3;
     options[3] = opt4;
   }
-
+  void displayQuestion() const;
   bool isCorrect(int playerChoice) const;
   string getOneWrongOption() const;           // For 50:50 lifeline
+  string getCorrectOption() const;
   int getCorrectOptionIndex() const;
+  int getDifficultyLevel() const;
 };
