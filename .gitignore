@@ -35,3 +35,7 @@
 ## IDEs
 .vscode/
 .idea/
+
+
+## local testing files
+test.cpp
