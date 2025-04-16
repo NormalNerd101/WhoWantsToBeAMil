@@ -1,0 +1,185 @@
+{
+  "response_code": 0,
+  "results": [
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "General Knowledge",
+      "question": "Frank Lloyd Wright was the architect behind what famous building?",
+      "correct_answer": "The Guggenheim",
+      "incorrect_answers": [
+        "Villa Savoye",
+        "Sydney Opera House",
+        "The Space Needle"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Animals",
+      "question": "'Decapods' are an order of ten-footed crustaceans. Which of these are NOT decapods?",
+      "correct_answer": "Krill",
+      "incorrect_answers": [
+        "Lobsters",
+        "Shrimp",
+        "Crabs"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Film",
+      "question": "Who performed the opening theme song for the James Bond 007 movie 'Goldfinger'?",
+      "correct_answer": "Shirley Basey",
+      "incorrect_answers": [
+        "Tom Jones",
+        "John Barry",
+        "Sheena Easton"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "History",
+      "question": "What year did Skoal, a smokeless Tobacco company, release their first line of Pouches, known as &quot;Skoal Bandits&quot;?",
+      "correct_answer": "1983",
+      "incorrect_answers": [
+        "1934",
+        "1984",
+        "1822"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Music",
+      "question": "What was the title of Sakamoto Kyu&#039;s song &quot;Ue o Muite Arukou&quot; (I Look Up As I Walk) changed to in the United States?",
+      "correct_answer": "Sukiyaki",
+      "incorrect_answers": [
+        "Takoyaki",
+        "Sushi",
+        "Oden"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "History",
+      "question": "Who was the first President of the People&#039;s Republic of China?",
+      "correct_answer": "Mao Zedong",
+      "incorrect_answers": [
+        "Liu Shaoqi",
+        "Dong Biwu",
+        "Li Xiannian"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Comics",
+      "question": "Which of the following superheros did Wonder Woman NOT have a love interest in?",
+      "correct_answer": "Green Arrow",
+      "incorrect_answers": [
+        "Superman",
+        "Batman",
+        "Steve Trevor"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Cartoon &amp; Animations",
+      "question": "Which singer provided the voice of Metroid&#039;s Mother Brain in the animated series &quot;Captain N: The Game Master&quot;?",
+      "correct_answer": "Levi Stubbs",
+      "incorrect_answers": [
+        "Freddie Mercury",
+        "Janet Jackson",
+        "Joan Jett"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Music",
+      "question": "What French artist/band is known for playing on the midi instrument &quot;Launchpad&quot;?",
+      "correct_answer": "Madeon",
+      "incorrect_answers": [
+        "Daft Punk ",
+        "Disclosure",
+        "David Guetta"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Japanese Anime &amp; Manga",
+      "question": "In &quot;Highschool DxD&quot;, Koneko Toujou is from what race?",
+      "correct_answer": "Nekomata",
+      "incorrect_answers": [
+        "Kitsune",
+        "Human",
+        "Kappa"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Music",
+      "question": "Who recorded the album called &quot;Down to the Moon&quot; in 1986?",
+      "correct_answer": "Andreas Vollenweider",
+      "incorrect_answers": [
+        "Jean-Michel Jarre",
+        "Bing Crosby",
+        "Enya"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Television",
+      "question": "What actor portrays Hogan &quot;Wash&quot; Washburne in the TV Show Firefly?",
+      "correct_answer": "Alan Tudyk",
+      "incorrect_answers": [
+        "Adam Baldwin",
+        "Nathan Fillion",
+        "Sean Maher"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Music",
+      "question": "Which member of the British pop group &quot;The Spice Girls&quot; was known as Ginger Spice?",
+      "correct_answer": "Geri Halliwell",
+      "incorrect_answers": [
+        "Melanie Brown",
+        "Emma Bunton",
+        "Victoria Beckham"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Entertainment: Video Games",
+      "question": "How many times do you fight the Imprisoned in The Legend of Zelda: Skyward Sword?",
+      "correct_answer": "3",
+      "incorrect_answers": [
+        "2",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "medium",
+      "category": "Animals",
+      "question": "The now extinct species &quot;Thylacine&quot; was native to where?",
+      "correct_answer": "Tasmania, Australia",
+      "incorrect_answers": [
+        "Baluchistan, Pakistan",
+        "Wallachia, Romania",
+        "Oregon, United States"
+      ]
+    }
+  ]
+}
