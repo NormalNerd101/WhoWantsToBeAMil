@@ -3,8 +3,29 @@ using namespace std;
 // Constructor mặc định
 Question::Question() {}
 
+<<<<<<< HEAD
 
 
+=======
+// Constructor đầy đủ
+Question::Question(string q, string a, string b, string c, string d, int correct, int level)
+    : questionText(q), correctOption(correct), difficultyLevel(level) {
+    options[0] = a;
+    options[1] = b;
+    options[2] = c;
+    options[3] = d;
+}
+
+
+// Hiển thị nội dung câu hỏi và 4 lựa chọn
+void Question::displayQuestion() const {
+    cout << "\n" << questionText << "\n";
+    for (int i = 0; i < 4; ++i) {
+    cout << char('A' + i) << ". " << options[i] << "\n";
+    }
+}
+
+>>>>>>> f544b938a094aa188f8571a53cd6123b21fb767f
 // Kiểm tra xem lựa chọn của người chơi có đúng không
 bool Question::isCorrect(int playerChoice) const {
     return playerChoice == correctOption;
