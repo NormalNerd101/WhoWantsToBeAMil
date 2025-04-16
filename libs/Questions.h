@@ -33,17 +33,8 @@ public:
     options[2] = opt3;
     options[3] = opt4;
   }
-<<<<<<< HEAD
- 
   bool isCorrect(int playerChoice) const;
   string getOneWrongOption() const;           // For 50:50 lifeline
   int getCorrectOptionIndex() const; 
-=======
-  void displayQuestion() const;
-  bool isCorrect(int playerChoice) const;
-  string getOneWrongOption() const;           // For 50:50 lifeline
-  string getCorrectOption() const;
-  int getCorrectOptionIndex() const;
-  int getDifficultyLevel() const;
->>>>>>> f544b938a094aa188f8571a53cd6123b21fb767f
+
 };
