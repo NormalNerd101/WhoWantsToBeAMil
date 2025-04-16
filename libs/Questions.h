@@ -32,8 +32,8 @@ public:
     options[2] = opt3;
     options[3] = opt4;
   }
-
+ 
   bool isCorrect(int playerChoice) const;
   string getOneWrongOption() const;           // For 50:50 lifeline
-  int getCorrectOptionIndex() const;
+  int getCorrectOptionIndex() const; 
 };
