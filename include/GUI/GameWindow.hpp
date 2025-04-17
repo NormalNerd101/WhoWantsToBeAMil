@@ -64,7 +64,7 @@ public:
         panels.emplace_back(
             Vector2f(220, 10),                      // Position
             Vector2f(600, 580),                     // Size
-            Color(100, 150, 100, 255),              // Color
+            Color(140, 206, 242, 255),              // Color
             "Center Panel"                              // Name
         );
         
@@ -72,7 +72,7 @@ public:
         panels.emplace_back(
             Vector2f(830, 10),                      // Position
             Vector2f(200, 580),                     // Size
-            Color(150, 100, 100, 255),              // Color
+            Color(218, 112, 112, 255),              // Color
             "Right Panel"                               // Name
         );
     }
