@@ -19,7 +19,7 @@ public:
   // getter
   string getQuestionText() const { return questionText; }
   vector<string> getOptions() const { return options; }
-  int getCorrectOption() const { return correctOption; }
+  string getCorrectOption() const;
   int getDifficultyLevel() const { return difficultyLevel; }
   
   // setter
