@@ -16,8 +16,8 @@ private:
 public:
     Panel(const Vector2f& pos, const Vector2f& sz, const Color& color, const string& panelName)
         : position(pos), size(sz), backgroundColor(color), name(panelName) {
-        shape.setPosition(position);
         shape.setSize(size);
+        shape.setPosition(position);
         shape.setFillColor(backgroundColor);
     }
 
@@ -48,7 +48,7 @@ private:
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
         // Create the main window
-        window.create(VideoMode(800, 600), "SFML Three Panel GUI");
+        window.create(VideoMode(1030, 600), "SFML Three Panel GUI", Style::Titlebar|Style::Close);
         window.setFramerateLimit(60);
         
         // Create three panels
@@ -63,15 +63,15 @@ public:
         // Center panel
         panels.emplace_back(
             Vector2f(220, 10),                      // Position
-            Vector2f(350, 580),                     // Size
+            Vector2f(600, 580),                     // Size
             Color(100, 150, 100, 255),              // Color
             "Center Panel"                              // Name
         );
         
         // Right panel
         panels.emplace_back(
-            Vector2f(580, 10),                      // Position
-            Vector2f(210, 580),                     // Size
+            Vector2f(830, 10),                      // Position
+            Vector2f(200, 580),                     // Size
             Color(150, 100, 100, 255),              // Color
             "Right Panel"                               // Name
         );
