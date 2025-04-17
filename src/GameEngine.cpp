@@ -1,5 +1,7 @@
 #include "GameEngine.hpp"
 #include "LifeLineSystem.hpp"
+#include "GameEngine.h"
+#include "LifeLineSystem.h"
 #include <format>
 
 map<string,string> ansiColors = {
