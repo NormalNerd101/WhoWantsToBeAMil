@@ -42,10 +42,10 @@ public:
     TextBox(const Vector2f& pos, const Vector2f& sz, Font* fnt, 
             const string& defaultText, const string& elementName)
         : UIElement(pos, sz, elementName), 
-            content(defaultText), 
-            font(fnt),
-            textColor(Color::Black),
-            backgroundColor(Color::White)
+        font(fnt),
+        content(defaultText), 
+        textColor(Color::Black),
+        backgroundColor(Color::White)
     {
         // Set up background
         background.setSize(size);
@@ -61,6 +61,7 @@ public:
         // Center text in the box
         centerText();
     }
+    ~TextBox() {}
     
     void draw(RenderWindow& window) override {
         if (isVisible) {
@@ -126,6 +127,7 @@ public:
         // Center text
         centerText();
     }
+    ~Button() {}
     
     void draw(RenderWindow& window) override {
         if (isVisible) {
@@ -203,6 +205,7 @@ public:
         updateTimeDisplay();
         centerText();
     }
+    ~CountdownClock() {}
     
     void draw(RenderWindow& window) override {
         if (isVisible) {
@@ -345,6 +348,7 @@ public:
             tierTexts.push_back(tierText);
         }
     }
+    ~PrizeTierBoard() {}
     
     void draw(RenderWindow& window) override {
         if (isVisible) {

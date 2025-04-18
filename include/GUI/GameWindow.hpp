@@ -8,11 +8,11 @@ using namespace sf;
 
 class Panel {
 private:
-    RectangleShape shape;
-    Color backgroundColor;
     Vector2f position;
     Vector2f size;
+    Color backgroundColor;
     string name;
+    RectangleShape shape;
 
 public:
     Panel(const Vector2f& pos, const Vector2f& sz, const Color& color, const string& panelName)
