@@ -70,12 +70,20 @@ public:
         }
         
         // Create panels
-        // Left panel for timer
+        // Left panel will be divided into two sections
+        // Top left panel for timer
         panels.emplace_back(
-            Vector2f(10, 10),                       // Position
-            Vector2f(200, 580),                     // Size
+            Vector2f(10, 10),                      // Position
+            Vector2f(200, 200),                     // Size
+            Color(100, 150, 100, 255),              // Color
+            "Timer Panel"                 // Name
+        );
+        // Bottom left panel for LifeLineSupport
+        panels.emplace_back(
+            Vector2f(10, 230),                       // Position
+            Vector2f(200, 370),                     // Size
             Color(100, 100, 150, 255),              // Color
-            "Timer Panel"                           // Name
+            "LifeLineSupport Panel"                           // Name
         );
         
         // Center top panel for question
@@ -131,12 +139,12 @@ public:
             answerButtons.push_back(btn);
         }
         
-        // Timer in left panel
+        // Timer in top-left panel (matched with division size)
         timer = new CountdownClock(
             Vector2f(10, 10),                       // Position
             Vector2f(200, 200),                     // Size
             &font,                                  // Font
-            30,                                     // Starting time (30 seconds)
+            31,                                     // Starting time (30 seconds) (screen-countdown starts from 30)
             "Game Timer"                            // Name
         );
         
