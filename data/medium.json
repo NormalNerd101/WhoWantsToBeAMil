@@ -41,7 +41,7 @@
       "type": "multiple",
       "difficulty": "medium",
       "category": "History",
-      "question": "What year did Skoal, a smokeless Tobacco company, release their first line of Pouches, known as &quot;Skoal Bandits&quot;?",
+      "question": "What year did Skoal, a smokeless Tobacco company, release their first line of Pouches, known as 'Skoal Bandits'?",
       "correct_answer": "1983",
       "incorrect_answers": [
         "1934",
@@ -53,7 +53,7 @@
       "type": "multiple",
       "difficulty": "medium",
       "category": "Entertainment: Music",
-      "question": "What was the title of Sakamoto Kyu&#039;s song &quot;Ue o Muite Arukou&quot; (I Look Up As I Walk) changed to in the United States?",
+      "question": "What was the title of Sakamoto Kyu's song 'Ue o Muite Arukou' (I Look Up As I Walk) changed to in the United States?",
       "correct_answer": "Sukiyaki",
       "incorrect_answers": [
         "Takoyaki",
@@ -65,7 +65,7 @@
       "type": "multiple",
       "difficulty": "medium",
       "category": "History",
-      "question": "Who was the first President of the People&#039;s Republic of China?",
+      "question": "Who was the first President of the People's Republic of China?",
       "correct_answer": "Mao Zedong",
       "incorrect_answers": [
         "Liu Shaoqi",
@@ -88,8 +88,8 @@
     {
       "type": "multiple",
       "difficulty": "medium",
-      "category": "Entertainment: Cartoon &amp; Animations",
-      "question": "Which singer provided the voice of Metroid&#039;s Mother Brain in the animated series &quot;Captain N: The Game Master&quot;?",
+      "category": "Entertainment: Cartoon & Animations",
+      "question": "Which singer provided the voice of Metroid's Mother Brain in the animated series 'Captain N: The Game Master'?",
       "correct_answer": "Levi Stubbs",
       "incorrect_answers": [
         "Freddie Mercury",
@@ -101,7 +101,7 @@
       "type": "multiple",
       "difficulty": "medium",
       "category": "Entertainment: Music",
-      "question": "What French artist/band is known for playing on the midi instrument &quot;Launchpad&quot;?",
+      "question": "What French artist/band is known for playing on the midi instrument 'Launchpad'?",
       "correct_answer": "Madeon",
       "incorrect_answers": [
         "Daft Punk ",
@@ -112,8 +112,8 @@
     {
       "type": "multiple",
       "difficulty": "medium",
-      "category": "Entertainment: Japanese Anime &amp; Manga",
-      "question": "In &quot;Highschool DxD&quot;, Koneko Toujou is from what race?",
+      "category": "Entertainment: Japanese Anime & Manga",
+      "question": "In 'Highschool DxD', Koneko Toujou is from what race?",
       "correct_answer": "Nekomata",
       "incorrect_answers": [
         "Kitsune",
@@ -125,7 +125,7 @@
       "type": "multiple",
       "difficulty": "medium",
       "category": "Entertainment: Music",
-      "question": "Who recorded the album called &quot;Down to the Moon&quot; in 1986?",
+      "question": "Who recorded the album called 'Down to the Moon' in 1986?",
       "correct_answer": "Andreas Vollenweider",
       "incorrect_answers": [
         "Jean-Michel Jarre",
@@ -137,7 +137,7 @@
       "type": "multiple",
       "difficulty": "medium",
       "category": "Entertainment: Television",
-      "question": "What actor portrays Hogan &quot;Wash&quot; Washburne in the TV Show Firefly?",
+      "question": "What actor portrays Hogan 'Wash' Washburne in the TV Show Firefly?",
       "correct_answer": "Alan Tudyk",
       "incorrect_answers": [
         "Adam Baldwin",
@@ -149,7 +149,7 @@
       "type": "multiple",
       "difficulty": "medium",
       "category": "Entertainment: Music",
-      "question": "Which member of the British pop group &quot;The Spice Girls&quot; was known as Ginger Spice?",
+      "question": "Which member of the British pop group 'The Spice Girls' was known as Ginger Spice?",
       "correct_answer": "Geri Halliwell",
       "incorrect_answers": [
         "Melanie Brown",
@@ -173,7 +173,7 @@
       "type": "multiple",
       "difficulty": "medium",
       "category": "Animals",
-      "question": "The now extinct species &quot;Thylacine&quot; was native to where?",
+      "question": "The now extinct species 'Thylacine' was native to where?",
       "correct_answer": "Tasmania, Australia",
       "incorrect_answers": [
         "Baluchistan, Pakistan",

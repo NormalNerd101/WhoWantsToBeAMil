@@ -170,10 +170,19 @@ public:
             }
         }
     }
-
+    
     string gettext() {
         return text.getString();
     }
+    void setText(const string& newText) {
+        text.setString(newText);
+        centerText();
+    }
+
+    // set customized colors
+    void setIdleColor(const Color& color) { idleColor = color; }
+    void setHoverColor(const Color& color) { hoverColor = color; }
+    void setActiveColor(const Color& color) { activeColor = color; }
     
 private:
     void centerText() {

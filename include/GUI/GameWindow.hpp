@@ -1,17 +1,19 @@
 #include <bits/stdc++.h>
 #include <SFML/Graphics.hpp>
-#include <UIElement.hpp>
+#include <UIElements.hpp>
 
 // import LifeLineSupports
 #include <AudiencePoll.hpp>
 #include <PhoneFriend.hpp>
 
-// import Questions
+// import other classes
 #include <Questions.hpp>
+#include <json.hpp>
 
 using namespace std;
 using namespace sf;
-
+using json = nlohmann::json;
+void loadDataFromJson(vector<Question>& questions);
 
 class Panel {
 private:
@@ -69,7 +71,9 @@ private:
 
     // Questions and Answers from database
     vector<Question> questions;
+    size_t currentIndex = 0;
     
+
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
         // Create the main window
@@ -77,12 +81,12 @@ public:
         window.setFramerateLimit(60);
         
         // Load font
-        if (!font.loadFromFile("arial.ttf")) {
-            // Try common font locations as fallback
-            if (!font.loadFromFile("assets/fonts/LiberationSans-Regular.ttf")) {
-                throw runtime_error("Could not load font");
-            }
+        if (!font.loadFromFile("assets/fonts/LiberationSans-Regular.ttf")) {
+            throw runtime_error("Could not load font");
         }
+
+        // Load questions from JSON files
+        loadDataFromJson(questions);
         
         // Create panels
         // Left panel will be divided into two sections
@@ -131,17 +135,15 @@ public:
             Vector2f(240, 30),                      // Position
             Vector2f(560, 240),                     // Size
             &font,                                  // Font
-            "Who was the first president of the United States?", // Default text
+            questions[currentIndex].getQuestionText(), // Default text
             "Question Text"                         // Name
         );
         
         // Answer buttons in center bottom panel
-        string answerOptions[4] = {
-            "A: George Washington",
-            "B: Thomas Jefferson",
-            "C: Abraham Lincoln",
-            "D: John Adams"
-        };
+        string answerOptions[4] = {};
+        for (int i = 0; i < 4; i++) {
+            answerOptions[i] = questions[currentIndex].getOptions()[i];
+        }
         
         for (int i = 0; i < 4; i++) {
             Button* btn = new Button(
@@ -160,7 +162,7 @@ public:
             Vector2f(200, 200),                     // Size
             &font,                                  // Font
             31,                                     // Starting time (30 seconds) (screen-countdown starts from 30)
-            "Game Timer"                            // Name
+            "Game Timer"                           // Name
         );
 
         // LifeLineSupport in bottom-left panel
@@ -172,6 +174,10 @@ public:
             "Audience Poll",                        // Text
             "Audience Poll Button"                  // Name
         );
+        audiencePollBtn->setIdleColor(Color(255, 152, 0, 100));
+        audiencePollBtn->setHoverColor(Color(255, 152, 0, 77));
+        audiencePollBtn->setActiveColor(Color(140, 190, 140));
+        
         phoneFriendBtn = new Button(
             Vector2f(10, 340),                     // Position
             Vector2f(200, 100),                    // Size
@@ -179,6 +185,10 @@ public:
             "Phone a Friend",                       // Text
             "Phone a Friend Button"                 // Name
         );
+        phoneFriendBtn->setIdleColor(Color(255, 152, 0, 100));
+        phoneFriendBtn->setHoverColor(Color(255, 152, 0, 77));
+        phoneFriendBtn->setActiveColor(Color(140, 190, 140));
+        
         fiftyFiftyBtn = new Button(
             Vector2f(10, 450),                     // Position
             Vector2f(200, 100),                    // Size
@@ -186,7 +196,9 @@ public:
             "50/50",                                // Text
             "50/50 Button"                          // Name
         );
-
+        fiftyFiftyBtn->setIdleColor(Color(255, 152, 0, 100));
+        fiftyFiftyBtn->setHoverColor(Color(255, 152, 0, 77));
+        fiftyFiftyBtn->setActiveColor(Color(140, 190, 140));
         
         // Prize board in right panel
         prizeBoard = new PrizeTierBoard(
@@ -256,12 +268,39 @@ private:
     }
     
     void handleMouseClick(const Vector2i& mousePos) {
-        // Check if any answer button was clicked
         for (size_t i = 0; i < answerButtons.size(); ++i) {
             if (answerButtons[i]->contains(mousePos)) {
                 cout << "Selected answer: " << answerButtons[i]->getName() << endl;
-                // Handle answer selection logic here
+                
+                // Check if the selected answer is correct
+                if (answerButtons[i]->gettext() == questions[currentIndex].getCorrectOption()) {
+                    currentIndex++;
+                    if (currentIndex < questions.size()) {
+                        MovetoNextQuestion();
+                    } else {
+                        // Handle end of game
+                        cout << "Game completed!" << endl;
+                    }
+                } else {
+                    // Handle incorrect answer
+                    cout << "Incorrect answer!" << endl;
+                }
+                break; // Exit the loop after handling the clicked button
             }
+        }
+    }
+
+    void MovetoNextQuestion() {
+        questionBox->setText(questions[currentIndex].getQuestionText());
+        vector<string> options = questions[currentIndex].getOptions();
+        for (int i = 0; i < 4; i++) {
+            answerButtons[i]->setText(questions[currentIndex].getOptions()[i]);
+        }
+
+        // redraw the UI elements
+        questionBox->draw(window);
+        for (auto button : answerButtons) {
+            button->draw(window);
         }
     }
     
@@ -310,7 +349,7 @@ private:
 
     void handleFiftyFifty() {
         // we'll remove two wrong answers from the answer buttons.
-        string correctAnswer = "A: George Washington"; // Placeholder for the correct answer
+        string correctAnswer = questions[currentIndex].getCorrectOption();
         vector<Button*> wrongAnswers;
         for (auto button : answerButtons) {
             if (button->gettext() != correctAnswer) {
@@ -330,4 +369,83 @@ private:
             }
         }
     }
+};
+
+
+void loadDataFromJson(vector<Question>& questions) {
+    vector<Question> tempQuestions;
+
+    vector<string> database = {
+        "data/easy.json",
+        "data/medium.json",
+        "data/hard.json"
+    };
+
+    for (const auto& filename : database) {
+        fstream file;
+        file.open(filename, ios::in);
+        if (!file) {
+            cout << "Error opening file: " << filename << endl;
+            continue;  // Skip to next file instead of returning
+        }
+    
+        try {
+            json Doc = json::parse(file);
+            
+            if (!Doc.contains("results") || !Doc["results"].is_array()) {
+                cout << "Error: Invalid JSON structure in file " << filename << endl;
+                continue;
+            }
+            
+            json data = Doc["results"];
+            
+            set<int> usedIndexes;
+            while (usedIndexes.size() < 5 && !data.empty()) {
+                int randomIndex = rand() % data.size();
+                if (usedIndexes.find(randomIndex) == usedIndexes.end()) {
+                    usedIndexes.insert(randomIndex);
+                    
+                    // Validate JSON structure before accessing fields
+                    auto& item = data[randomIndex];
+                    if (!item.contains("correct_answer") || 
+                        !item.contains("incorrect_answers") || 
+                        !item["incorrect_answers"].is_array() ||
+                        item["incorrect_answers"].size() < 3) {
+                        
+                        cout << "Error: Invalid question format at index " << randomIndex << endl;
+                        continue;
+                    }
+                    
+                    Question q;
+                    vector<string> tempOptions(4);
+                    
+                    tempOptions[0] = item["correct_answer"];
+                    tempOptions[1] = item["incorrect_answers"][0];
+                    tempOptions[2] = item["incorrect_answers"][1];
+                    tempOptions[3] = item["incorrect_answers"][2];
+                    
+                    random_device rd;
+                    mt19937 g(rd());
+                    shuffle(tempOptions.begin(), tempOptions.end(), g);
+                    q.setOptions(tempOptions[0], tempOptions[1], tempOptions[2], tempOptions[3]);
+                    q.setQuestionText(data[randomIndex]["question"]);
+
+                    for (int i = 0; i < 4; i++) {
+                        if (tempOptions[i] == q.getCorrectOption()) {
+                            q.setCorrectOptionIndex(i);
+                            break;
+                        }
+                    }
+                    tempQuestions.push_back(q);
+                }
+            }
+        }
+        catch (const json::exception& e) {
+            cout << "JSON error in file " << filename << ": " << e.what() << endl;
+        }
+        
+        file.close();
+    }
+    // Store the loaded questions in the class member variable
+    questions = tempQuestions;
 };

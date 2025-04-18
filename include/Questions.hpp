@@ -1,7 +1,5 @@
 # pragma once
 #include <bits/stdc++.h>
-#include <fstream>
-#include <json.hpp>
 using namespace std;
 
 
@@ -11,10 +9,15 @@ private:
   string questionText;
   vector<string> options;
   int correctOptionIndex; // e.g., 0-3 for 4 options
-  int difficultyLevel; // 1-15 (for 15 tiers)
+  string difficultyLevel; // 1-15 (for 15 tiers)
 
 public:
-  Question() {}
+  Question() {
+    questionText = "";
+    options.resize(4);
+    correctOptionIndex = -1; // -1 indicates no correct option set
+    difficultyLevel = "easy"; // 0 indicates no difficulty level set
+  }
   ~Question() {}
 
   // getter
@@ -22,13 +25,13 @@ public:
   vector<string> getOptions() const { return options; }
   int getCorrectOptionIndex() const;
   string getCorrectOption() const { return options[correctOptionIndex]; }
-  int getDifficultyLevel() const { return difficultyLevel; }
+  string getDifficultyLevel() const { return difficultyLevel; }
 
   // setter
   void setQuestionText(const string& text) { questionText = text; }
   void setOption(int index, const string& option) { options[index] = option; }
   void setCorrectOptionIndex(int index) { correctOptionIndex = index; }
-  void setDifficultyLevel(int level) { difficultyLevel = level; }
+  void setDifficultyLevel(string level) { difficultyLevel = level; }
   void setOptions(const string& opt1, const string& opt2, const string& opt3, const string& opt4) {
     options[0] = opt1;
     options[1] = opt2;
