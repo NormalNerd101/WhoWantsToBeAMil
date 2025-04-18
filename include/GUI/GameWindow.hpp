@@ -2,6 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include <UIElement.hpp>
 
+// import LifeLineSupports
+#include <AudiencePoll.hpp>
+#include <PhoneFriend.hpp>
+
 using namespace std;
 using namespace sf;
 
@@ -54,6 +58,11 @@ private:
     vector<Button*> answerButtons;
     CountdownClock* timer;
     PrizeTierBoard* prizeBoard;
+
+    // LifeLineSupport Event handlers
+    Button* audiencePollBtn;
+    Button* phoneFriendBtn;
+    Button* fiftyFiftyBtn;
     
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
@@ -71,14 +80,14 @@ public:
         
         // Create panels
         // Left panel will be divided into two sections
-        // Top left panel for timer
+        // Top-left panel for timer
         panels.emplace_back(
             Vector2f(10, 10),                      // Position
             Vector2f(200, 200),                     // Size
             Color(100, 150, 100, 255),              // Color
             "Timer Panel"                 // Name
         );
-        // Bottom left panel for LifeLineSupport
+        // Bottom-left panel for LifeLineSupport
         panels.emplace_back(
             Vector2f(10, 230),                       // Position
             Vector2f(200, 370),                     // Size
@@ -147,6 +156,31 @@ public:
             31,                                     // Starting time (30 seconds) (screen-countdown starts from 30)
             "Game Timer"                            // Name
         );
+
+        // LifeLineSupport in bottom-left panel
+        // Set up three seperate buttons for each lifeline.
+        audiencePollBtn = new Button(
+            Vector2f(10, 230),                     // Position
+            Vector2f(200, 100),                    // Size
+            &font,                                  // Font
+            "Audience Poll",                        // Text
+            "Audience Poll Button"                  // Name
+        );
+        phoneFriendBtn = new Button(
+            Vector2f(10, 340),                     // Position
+            Vector2f(200, 100),                    // Size
+            &font,                                  // Font
+            "Phone a Friend",                       // Text
+            "Phone a Friend Button"                 // Name
+        );
+        fiftyFiftyBtn = new Button(
+            Vector2f(10, 450),                     // Position
+            Vector2f(200, 100),                    // Size
+            &font,                                  // Font
+            "50/50",                                // Text
+            "50/50 Button"                          // Name
+        );
+
         
         // Prize board in right panel
         prizeBoard = new PrizeTierBoard(
@@ -184,6 +218,20 @@ private:
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
+            }
+
+            // handle LifeLineSupport button events
+            if (event.type == Event::MouseButtonPressed) {
+                if (event.mouseButton.button == Mouse::Left) {
+                    Vector2i mousePos = Mouse::getPosition(window);
+                    if (audiencePollBtn->contains(mousePos)) {
+                        handleAuditioncePoll();
+                    } else if (phoneFriendBtn->contains(mousePos)) {
+                        handlePhoneFriend();
+                    } else if (fiftyFiftyBtn->contains(mousePos)) {
+                        // Handle 50/50 logic here
+                    }
+                }
             }
             
             // Handle button events
@@ -229,9 +277,28 @@ private:
         for (auto button : answerButtons) {
             button->draw(window);
         }
+
+        // Draw lifeline buttons
+        audiencePollBtn->draw(window);
+        phoneFriendBtn->draw(window);
+        fiftyFiftyBtn->draw(window);
+
         timer->draw(window);
         prizeBoard->draw(window);
         
         window.display();
+    }
+
+    // Add any additional methods for handling game logic, events, etc.
+
+    void handleAuditioncePoll() {
+        // Handle audience poll logic
+        BarChartPoll poll;
+        poll.run();
+    }
+
+    void handlePhoneFriend() {
+        PhoneFriendApp phoneFriend;
+        phoneFriend.run();
     }
 };

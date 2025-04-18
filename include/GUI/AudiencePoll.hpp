@@ -4,7 +4,7 @@
 #include <vector>
 
 
-class BarChartApp
+class BarChartPoll
 {
 private:
     sf::RenderWindow window;
@@ -32,7 +32,7 @@ private:
     bool initialized;
     
 public:
-    BarChartApp() : initialized(false)
+    BarChartPoll() : initialized(false)
     {
         try {
             // Create window
