@@ -48,7 +48,7 @@ private:
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
         // Create the main window
-        window.create(VideoMode(1030, 600), "SFML Three Panel GUI", Style::Titlebar|Style::Close);
+        window.create(VideoMode(1030, 600), "Who wants to be a FUCKING MILLIONAIRE, EY?", Style::Titlebar|Style::Close);
         window.setFramerateLimit(60);
         
         // Create three panels

@@ -3,10 +3,6 @@
 #include <iostream>
 #include <vector>
 
-// This is a simple embedded font as a binary array
-// It's a subset of the Liberation Sans font, encoded as a binary blob
-#include "embeded_font.h"
-
 
 class BarChartApp
 {
@@ -45,7 +41,7 @@ public:
                           sf::Style::Titlebar | sf::Style::Close);
             
             // Load embedded font
-            if (!font.loadFromMemory(_usr_share_fonts_LiberationSans_Regular_ttf, _usr_share_fonts_LiberationSans_Regular_ttf_len)) {
+            if (!font.loadFromFile("/usr/share/fonts/LiberationSans-Bold.ttf")) {
                 std::cerr << "Error loading embedded font!" << std::endl;
                 // If the embedded font fails, we'll try a very simple fallback approach
                 createSimpleFont();

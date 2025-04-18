@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-#include "embeded_font.h"  // Include your embedded font header
 
 // Configuration constants
 const int WINDOW_WIDTH = 400;
@@ -25,7 +24,7 @@ private:
     
     bool loadResources() {
         // Load font
-        if (!font.loadFromMemory(_usr_share_fonts_LiberationSans_Regular_ttf, _usr_share_fonts_LiberationSans_Regular_ttf_len)) {  // Place your preferred font here
+        if (!font.loadFromFile("/usr/share/fonts/LiberationSans-Bold.ttf")) {  // Place your preferred font here
             std::cerr << "Failed to load font!" << std::endl;
             return false;
         }
