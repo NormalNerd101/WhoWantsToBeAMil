@@ -1,9 +1,10 @@
+#include <bits/stdc++.h>
 #include <SFML/Graphics.hpp>
-#include <iostream>
-#include <vector>
+#include <UIElement.hpp>
 
 using namespace std;
 using namespace sf;
+
 
 class Panel {
 private:
@@ -38,6 +39,8 @@ public:
     const Vector2f& getSize() const { return size; }
     const string& getName() const { return name; }
 };
+    
+
 
 class Application {
 private:
@@ -45,39 +48,123 @@ private:
     vector<Panel> panels;
     Color backgroundColor;
     
+    // UI components
+    Font font;
+    TextBox* questionBox;
+    vector<Button*> answerButtons;
+    CountdownClock* timer;
+    PrizeTierBoard* prizeBoard;
+    
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
         // Create the main window
-        window.create(VideoMode(1030, 600), "Who wants to be a FUCKING MILLIONAIRE, EY?", Style::Titlebar|Style::Close);
+        window.create(VideoMode(1030, 600), "Who wants to be a MILLIONAIRE?", Style::Titlebar|Style::Close);
         window.setFramerateLimit(60);
         
-        // Create three panels
-        // Left panel
+        // Load font
+        if (!font.loadFromFile("arial.ttf")) {
+            // Try common font locations as fallback
+            if (!font.loadFromFile("C:/Windows/Fonts/arial.ttf") && 
+                !font.loadFromFile("/usr/share/fonts/LiberationSans-Regular.ttf") &&
+                !font.loadFromFile("/System/Library/Fonts/Helvetica.ttc")) {
+                throw runtime_error("Could not load font");
+            }
+        }
+        
+        // Create panels
+        // Left panel for timer
         panels.emplace_back(
             Vector2f(10, 10),                       // Position
             Vector2f(200, 580),                     // Size
             Color(100, 100, 150, 255),              // Color
-            "Left Panel"                                // Name
+            "Timer Panel"                           // Name
         );
         
-        // Center panel
+        // Center top panel for question
         panels.emplace_back(
             Vector2f(220, 10),                      // Position
-            Vector2f(600, 580),                     // Size
+            Vector2f(600, 280),                     // Size
             Color(140, 206, 242, 255),              // Color
-            "Center Panel"                              // Name
+            "Question Panel"                        // Name
         );
         
-        // Right panel
+        // Center bottom panel for answers
+        panels.emplace_back(
+            Vector2f(220, 300),                     // Position
+            Vector2f(600, 290),                     // Size
+            Color(160, 226, 255, 255),              // Color
+            "Answer Options Panel"                  // Name
+        );
+        
+        // Right panel for prize board
         panels.emplace_back(
             Vector2f(830, 10),                      // Position
-            Vector2f(200, 580),                     // Size
+            Vector2f(190, 580),                     // Size
             Color(218, 112, 112, 255),              // Color
-            "Right Panel"                               // Name
+            "Prize Board Panel"                     // Name
+        );
+        
+        // Create UI elements
+        // Question box in center top panel
+        questionBox = new TextBox(
+            Vector2f(240, 30),                      // Position
+            Vector2f(560, 240),                     // Size
+            &font,                                  // Font
+            "Who was the first president of the United States?", // Default text
+            "Question Text"                         // Name
+        );
+        
+        // Answer buttons in center bottom panel
+        string answerOptions[4] = {
+            "A: George Washington",
+            "B: Thomas Jefferson",
+            "C: Abraham Lincoln",
+            "D: John Adams"
+        };
+        
+        for (int i = 0; i < 4; i++) {
+            Button* btn = new Button(
+                Vector2f(240, 320 + i * 65),        // Position (stacked vertically)
+                Vector2f(560, 55),                  // Size
+                &font,                              // Font
+                answerOptions[i],                   // Text
+                "Answer " + to_string(i + 1)        // Name
+            );
+            answerButtons.push_back(btn);
+        }
+        
+        // Timer in left panel
+        timer = new CountdownClock(
+            Vector2f(10, 10),                       // Position
+            Vector2f(200, 200),                     // Size
+            &font,                                  // Font
+            30,                                     // Starting time (30 seconds)
+            "Game Timer"                            // Name
+        );
+        
+        // Prize board in right panel
+        prizeBoard = new PrizeTierBoard(
+            Vector2f(830, 10),                      // Position
+            Vector2f(190, 580),                     // Size
+            &font,                                  // Font
+            "Prize Tier Board"                      // Name
         );
     }
     
+    ~Application() {
+        // Clean up dynamically allocated UI elements
+        delete questionBox;
+        for (auto button : answerButtons) {
+            delete button;
+        }
+        delete timer;
+        delete prizeBoard;
+    }
+    
     void run() {
+        // Start the timer
+        timer->start();
+        
         while (window.isOpen()) {
             processEvents();
             update();
@@ -92,7 +179,14 @@ private:
             if (event.type == Event::Closed) {
                 window.close();
             }
-            else if (event.type == Event::MouseButtonPressed) {
+            
+            // Handle button events
+            for (auto button : answerButtons) {
+                button->handleEvent(event);
+            }
+            
+            // Example: Handle mouse clicks on panels
+            if (event.type == Event::MouseButtonPressed) {
                 if (event.mouseButton.button == Mouse::Left) {
                     Vector2i mousePos = Mouse::getPosition(window);
                     handleMouseClick(mousePos);
@@ -102,16 +196,18 @@ private:
     }
     
     void handleMouseClick(const Vector2i& mousePos) {
-        for (size_t i = 0; i < panels.size(); ++i) {
-            if (panels[i].contains(mousePos)) {
-                cout << "Clicked on " << panels[i].getName() << endl;
-                // Add specific panel interaction logic here
+        // Check if any answer button was clicked
+        for (size_t i = 0; i < answerButtons.size(); ++i) {
+            if (answerButtons[i]->contains(mousePos)) {
+                cout << "Selected answer: " << answerButtons[i]->getName() << endl;
+                // Handle answer selection logic here
             }
         }
     }
     
     void update() {
-        // Update logic goes here
+        // Update timer
+        timer->update();
     }
     
     void render() {
@@ -122,18 +218,14 @@ private:
             panel.draw(window);
         }
         
+        // Draw UI elements
+        questionBox->draw(window);
+        for (auto button : answerButtons) {
+            button->draw(window);
+        }
+        timer->draw(window);
+        prizeBoard->draw(window);
+        
         window.display();
     }
 };
-
-int main() {
-    try {
-        Application app;
-        app.run();
-    } catch (const exception& e) {
-        cerr << "Exception: " << e.what() << endl;
-        return EXIT_FAILURE;
-    }
-    
-    return EXIT_SUCCESS;
-}

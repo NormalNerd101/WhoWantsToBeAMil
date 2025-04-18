@@ -1,9 +1,15 @@
-#include "GameEngine.h"
+#include <GameWindow.hpp>
 
 
 
 int main() {
-    GameEngine game;
-    game.startGame();
-    return 0;
+    try {
+        Application app;
+        app.run();
+    } catch (const exception& e) {
+        cerr << "Exception: " << e.what() << endl;
+        return EXIT_FAILURE;
+    }
+    
+    return EXIT_SUCCESS;
 }

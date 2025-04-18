@@ -132,10 +132,3 @@ public:
         window.display();
     }
 };
-
-int main() {
-    PhoneFriendApp app;
-    app.run();
-    
-    return 0;
-}
