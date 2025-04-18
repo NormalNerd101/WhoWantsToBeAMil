@@ -1,8 +1,8 @@
 # pragma once
 #include <bits/stdc++.h>
-#include "Questions.h"
-#include "LifeLineSystem.h"
-#include "PrizeTier.h"
+#include "Questions.hpp"
+#include "LifeLineSystem.hpp"
+#include "PrizeTier.hpp"
 using namespace std;
 
 

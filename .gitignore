@@ -35,3 +35,13 @@
 ## IDEs
 .vscode/
 .idea/
+
+
+## local testing files
+test.cpp
+test.exe
+test
+
+## text files
+*.txt
+*.log

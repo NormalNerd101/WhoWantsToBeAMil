@@ -1,0 +1,185 @@
+{
+  "response_code": 0,
+  "results": [
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Science &amp; Nature",
+      "question": "What is the atomic mass of Carbon?",
+      "correct_answer": "12",
+      "incorrect_answers": [
+        "14",
+        "16",
+        "10"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Japanese Anime &amp; Manga",
+      "question": "What is the age of Ash Ketchum in Pokemon when he starts his journey?",
+      "correct_answer": "10",
+      "incorrect_answers": [
+        "11",
+        "12",
+        "9"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Music",
+      "question": "Which famous artist featured on Rowdy Rebel's 2015 song 'Computers'?",
+      "correct_answer": "Bobby Shmurda ",
+      "incorrect_answers": [
+        "Lil Wayne",
+        "Will.I.AM",
+        "Kendrick Lamar"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Video Games",
+      "question": "What video game engine does the videogame Quake 2 run in?",
+      "correct_answer": "iD Tech 2",
+      "incorrect_answers": [
+        "iD Tech 3",
+        "iD Tech 1",
+        "Unreal Engine"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Film",
+      "question": "Which movie released in 2016 features Superman and Batman fighting?",
+      "correct_answer": "Batman v Superman: Dawn of Justice",
+      "incorrect_answers": [
+        "Batman v Superman: Superapocalypse",
+        "Batman v Superman: Black of Knight",
+        "Batman v Superman: Knightfall"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Musicals &amp; Theatres",
+      "question": "Who wrote the play 'Angels in America'?",
+      "correct_answer": "Tony Kusher",
+      "incorrect_answers": [
+        "Tom Stoppard",
+        "Matthew Lopez",
+        "Anthony Neilson"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "General Knowledge",
+      "question": "When was the Playstation 3 released?",
+      "correct_answer": "November 11, 2006",
+      "incorrect_answers": [
+        "January 8, 2007",
+        "December 25, 2007",
+        "July 16, 2006"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Geography",
+      "question": "In which country is the city of Rio de Janeiro?",
+      "correct_answer": "Brazil",
+      "incorrect_answers": [
+        "Peru",
+        "Chile",
+        "Venezuela"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Cartoon &amp; Animations",
+      "question": "Who is the only voice actor to have a speaking part in all of the Disney Pixar feature films? ",
+      "correct_answer": "John Ratzenberger",
+      "incorrect_answers": [
+        "Tom Hanks",
+        "Dave Foley",
+        "Geoffrey Rush"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Music",
+      "question": "The four strings on a violin are the G string, D string, A string, and...",
+      "correct_answer": "E string",
+      "incorrect_answers": [
+        "C string",
+        "B string",
+        "F string"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Geography",
+      "question": "What is the 15th letter of the Greek alphabet?",
+      "correct_answer": "Omicron (&Omicron;)",
+      "incorrect_answers": [
+        "Sigma (&Sigma;)",
+        "Pi (&Pi;)",
+        "Nu (&Nu;)"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Video Games",
+      "question": "Who made Garry's Mod?",
+      "correct_answer": "Garry Newman",
+      "incorrect_answers": [
+        "Randy Newman",
+        "Facepunch Studios",
+        "Gabe Newell"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Music",
+      "question": "Which of the following is not a studio album by the band Pink Floyd?",
+      "correct_answer": "Moving Pictures",
+      "incorrect_answers": [
+        "The Dark Side of the Moon",
+        "Wish You Were Here",
+        "Animals"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Entertainment: Video Games",
+      "question": "Which of the following is not a character in the video game Doki Doki Literature Club?",
+      "correct_answer": "Nico",
+      "incorrect_answers": [
+        "Monika",
+        "Natsuki",
+        "Sayori"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Science &amp; Nature",
+      "question": "How many planets make up our Solar System?",
+      "correct_answer": "8",
+      "incorrect_answers": [
+        "7",
+        "9",
+        "6"
+      ]
+    }
+  ]
+}
