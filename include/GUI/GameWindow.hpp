@@ -229,7 +229,7 @@ private:
                     } else if (phoneFriendBtn->contains(mousePos)) {
                         handlePhoneFriend();
                     } else if (fiftyFiftyBtn->contains(mousePos)) {
-                        // Handle 50/50 logic here
+                        handleFiftyFifty();
                     }
                 }
             }
@@ -300,5 +300,28 @@ private:
     void handlePhoneFriend() {
         PhoneFriendApp phoneFriend;
         phoneFriend.run();
+    }
+
+    void handleFiftyFifty() {
+        // we'll remove two wrong answers from the answer buttons.
+        string correctAnswer = "A: George Washington"; // Placeholder for the correct answer
+        vector<Button*> wrongAnswers;
+        for (auto button : answerButtons) {
+            if (button->gettext() != correctAnswer) {
+                wrongAnswers.push_back(button);
+            }
+        }
+        // Remove two wrong answers
+        for (int i = 0; i < 2; ++i) {
+            if (wrongAnswers[i]->getVisibility()) {
+                wrongAnswers[i]->setVisibility(false);
+            }
+        }
+        // Update the UI to reflect the changes
+        for (auto button : answerButtons) {
+            if (button->getVisibility()) {
+                button->draw(window);
+            }
+        }
     }
 };

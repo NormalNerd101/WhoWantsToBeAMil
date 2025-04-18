@@ -37,7 +37,7 @@ public:
         try {
             // Create window
             window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), 
-                          "SFML Bar Chart", 
+                          "Audience Poll Survey Results", 
                           sf::Style::Titlebar | sf::Style::Close);
             
             // Load embedded font

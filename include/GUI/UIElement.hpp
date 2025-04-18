@@ -170,6 +170,10 @@ public:
             }
         }
     }
+
+    string gettext() {
+        return text.getString();
+    }
     
 private:
     void centerText() {

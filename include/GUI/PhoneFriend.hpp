@@ -10,7 +10,7 @@ const std::string WINDOW_TITLE = "Phone A Friend";
 // Asset paths
 // TODO: Replace these with your actual asset paths
 const std::string FRIEND_IMAGE_PATH = "include/GUI/assets/friend.png";  // Place your friend image here
-const char CORRECT_ANSWER = 'C';  // You can modify this to be A, B, C, or D
+const string CORRECT_ANSWER = "C.";  // You can modify this to be A, B, C, or D
 
 class PhoneFriendApp {
 private:
@@ -64,7 +64,7 @@ private:
         messageText.setFillColor(sf::Color::White);
         
         // Construct the message
-        std::string message = "Hi! Congratulations for going this far!\n\nHmm I've read this somewhere. I think the answer is ";
+        std::string message = "\tHi! Congratulations for going this far!\n\n\tHmm....I've read this somewhere.\n\tI think the answer is ";
         message += CORRECT_ANSWER;
         messageText.setString(message);
         
