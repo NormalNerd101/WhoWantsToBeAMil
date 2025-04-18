@@ -1,34 +1,58 @@
 #include "Questions.hpp"
-using namespace std;
-// Constructor mặc định
-Question::Question() {}
 
 
-// Kiểm tra xem lựa chọn của người chơi có đúng không
-bool Question::isCorrect(int playerChoice) const {
-    return playerChoice == correctOption;
-}
+using json = nlohmann::json;
 
-// Trả về nội dung của đáp án đúng
-string Question::getCorrectOption() const {
-    return options[correctOption];
-}
+// load data from json files
+void Question::loadData() {
+    fstream file;
+    vector<string> data = {
+        "data/easy.json",
+        "data/medium.json",
+        "data/hard.json"
+    };
+    for (const auto& filename : data) {
+        srand(time(0));
+        file.open(filename, ios::in);
+        if (!file) {
+            cout << "File not found: " << filename << endl;
+            return;
+        }
+        json Doc{json::parse(file)};
 
-// Trả về chỉ số đáp án đúng (0-3)
-int Question::getCorrectOptionIndex() const {
-    return correctOption;
-}
+        // get results
+        set<int> existIndexes;
+        json data = Doc["results"];
+        
 
-// Trả về một đáp án sai (bất kỳ)
-string Question::getOneWrongOption() const {
-    for (int i = 0; i < 4; ++i) {
-        if (i != correctOption)
-            return options[i]; // Gặp đáp án sai đầu tiên là trả về
+        int n = 0;
+        while (existIndexes.size() < 5) {
+            int random_index = rand() % Doc["results"].size();
+
+            if (existIndexes.count(random_index) == 0) {
+                existIndexes.insert(random_index);
+        
+                this->questionText = data[random_index]["question"];
+        
+                // Prepare answers
+                vector<string> tempOptions(4);
+                tempOptions[0] = data[random_index]["correct_answer"];
+                tempOptions[1] = data[random_index]["incorrect_answers"][0];
+                tempOptions[2] = data[random_index]["incorrect_answers"][1];
+                tempOptions[3] = data[random_index]["incorrect_answers"][2];
+        
+                // Randomly shuffle
+                random_shuffle(tempOptions.begin(), tempOptions.end());
+        
+                // Find where the correct answer ended up
+                for (int i = 0; i < 4; ++i) {
+                    this->options[i] = tempOptions[i];
+                    if (tempOptions[i] == data[random_index]["correct_answer"]) {
+                        this->correctOptionIndex = i;
+                    }
+                }
+            }
+        }
+        file.close();
     }
-    return ""; // Trường hợp này không xảy ra, vì luôn có đáp án sai
-}
-
-// Trả về độ khó của câu hỏi
-int Question::getDifficultyLevel() const {
-    return difficultyLevel;
 }

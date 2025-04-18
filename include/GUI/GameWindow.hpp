@@ -6,6 +6,9 @@
 #include <AudiencePoll.hpp>
 #include <PhoneFriend.hpp>
 
+// import Questions
+#include <Questions.hpp>
+
 using namespace std;
 using namespace sf;
 
@@ -63,6 +66,9 @@ private:
     Button* audiencePollBtn;
     Button* phoneFriendBtn;
     Button* fiftyFiftyBtn;
+
+    // Questions and Answers from database
+    vector<Question> questions;
     
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
