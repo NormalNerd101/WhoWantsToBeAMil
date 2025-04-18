@@ -126,11 +126,11 @@
       "difficulty": "easy",
       "category": "Geography",
       "question": "What is the 15th letter of the Greek alphabet?",
-      "correct_answer": "Omicron (Ο)",
+      "correct_answer": "Omicron",
       "incorrect_answers": [
-        "Sigma (Σ)",
-        "Pi (Π)",
-        "Nu (Ν)"
+        "Sigma",
+        "Pi",
+        "Nu"
       ]
     },
     {

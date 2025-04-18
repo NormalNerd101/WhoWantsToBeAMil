@@ -243,7 +243,7 @@ private:
                 if (event.mouseButton.button == Mouse::Left) {
                     Vector2i mousePos = Mouse::getPosition(window);
                     if (audiencePollBtn->contains(mousePos)) {
-                        handleAuditioncePoll();
+                        handleAudiencePoll();
                     } else if (phoneFriendBtn->contains(mousePos)) {
                         handlePhoneFriend();
                     } else if (fiftyFiftyBtn->contains(mousePos)) {
@@ -289,20 +289,6 @@ private:
             }
         }
     }
-
-    void MovetoNextQuestion() {
-        questionBox->setText(questions[currentIndex].getQuestionText());
-        vector<string> options = questions[currentIndex].getOptions();
-        for (int i = 0; i < 4; i++) {
-            answerButtons[i]->setText(questions[currentIndex].getOptions()[i]);
-        }
-
-        // redraw the UI elements
-        questionBox->draw(window);
-        for (auto button : answerButtons) {
-            button->draw(window);
-        }
-    }
     
     void update() {
         // Update timer
@@ -336,7 +322,7 @@ private:
 
     // Add any additional methods for handling game logic, events, etc.
 
-    void handleAuditioncePoll() {
+    void handleAudiencePoll() {
         // Handle audience poll logic
         BarChartPoll poll;
         poll.run();
@@ -369,83 +355,103 @@ private:
             }
         }
     }
+
+    void MovetoNextQuestion() {
+        questionBox->setText(questions[currentIndex].getQuestionText());
+        vector<string> options = questions[currentIndex].getOptions();
+        for (int i = 0; i < 4; i++) {
+            answerButtons[i]->setText(questions[currentIndex].getOptions()[i]);
+        }
+
+        // redraw the UI elements
+        questionBox->draw(window);
+        for (auto button : answerButtons) {
+            button->draw(window);
+        }
+    }
 };
 
 
 void loadDataFromJson(vector<Question>& questions) {
-    vector<Question> tempQuestions;
-
     vector<string> database = {
         "data/easy.json",
         "data/medium.json",
         "data/hard.json"
     };
 
+    random_device rd;
+    mt19937 g(rd()); // Random engine for shuffling and random selection
+
     for (const auto& filename : database) {
-        fstream file;
-        file.open(filename, ios::in);
+        ifstream file(filename);
         if (!file) {
             cout << "Error opening file: " << filename << endl;
-            continue;  // Skip to next file instead of returning
+            continue;
         }
-    
+
         try {
             json Doc = json::parse(file);
-            
+
             if (!Doc.contains("results") || !Doc["results"].is_array()) {
                 cout << "Error: Invalid JSON structure in file " << filename << endl;
                 continue;
             }
-            
+
             json data = Doc["results"];
-            
+            int toPick = min(5, (int)data.size()); // Pick 5 questions or as many as available
+
             set<int> usedIndexes;
-            while (usedIndexes.size() < 5 && !data.empty()) {
-                int randomIndex = rand() % data.size();
+            uniform_int_distribution<> dis(0, data.size() - 1);
+
+            int attempts = 0;
+            const int maxAttempts = 20 * toPick;
+
+            while (usedIndexes.size() < toPick && attempts < maxAttempts) {
+                int randomIndex = dis(g);
+
                 if (usedIndexes.find(randomIndex) == usedIndexes.end()) {
-                    usedIndexes.insert(randomIndex);
-                    
-                    // Validate JSON structure before accessing fields
                     auto& item = data[randomIndex];
-                    if (!item.contains("correct_answer") || 
-                        !item.contains("incorrect_answers") || 
+
+                    if (!item.contains("correct_answer") ||
+                        !item.contains("incorrect_answers") ||
                         !item["incorrect_answers"].is_array() ||
                         item["incorrect_answers"].size() < 3) {
-                        
-                        cout << "Error: Invalid question format at index " << randomIndex << endl;
+                        cout << "Error: Invalid question format at index " << randomIndex << " in file " << filename << endl;
+                        attempts++;
                         continue;
                     }
-                    
+
+                    usedIndexes.insert(randomIndex);
+
                     Question q;
                     vector<string> tempOptions(4);
-                    
-                    tempOptions[0] = item["correct_answer"];
+
+                    string correctAnswer = item["correct_answer"];
+                    tempOptions[0] = correctAnswer;
                     tempOptions[1] = item["incorrect_answers"][0];
                     tempOptions[2] = item["incorrect_answers"][1];
                     tempOptions[3] = item["incorrect_answers"][2];
-                    
-                    random_device rd;
-                    mt19937 g(rd());
-                    shuffle(tempOptions.begin(), tempOptions.end(), g);
-                    q.setOptions(tempOptions[0], tempOptions[1], tempOptions[2], tempOptions[3]);
-                    q.setQuestionText(data[randomIndex]["question"]);
 
+                    shuffle(tempOptions.begin(), tempOptions.end(), g);
+
+                    q.setOptions(tempOptions[0], tempOptions[1], tempOptions[2], tempOptions[3]);
+                    q.setQuestionText(item["question"]);
+
+                    // Find and set the correct answer index
                     for (int i = 0; i < 4; i++) {
-                        if (tempOptions[i] == q.getCorrectOption()) {
+                        if (tempOptions[i] == correctAnswer) {
                             q.setCorrectOptionIndex(i);
                             break;
                         }
                     }
-                    tempQuestions.push_back(q);
+
+                    questions.push_back(q); // Directly append to the main questions list
                 }
+                attempts++;
             }
         }
         catch (const json::exception& e) {
             cout << "JSON error in file " << filename << ": " << e.what() << endl;
         }
-        
-        file.close();
     }
-    // Store the loaded questions in the class member variable
-    questions = tempQuestions;
-};
+}
