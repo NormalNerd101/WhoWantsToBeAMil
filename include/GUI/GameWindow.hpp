@@ -58,7 +58,7 @@ private:
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
         // Create the main window
-        window.create(VideoMode(1030, 600), "Who wants to be a MILLIONAIRE?", Style::Titlebar|Style::Close);
+        window.create(VideoMode(1030, 600), "Who wants to be a FUCKING MILLIONAIRE, ey?", Style::Titlebar|Style::Close);
         window.setFramerateLimit(60);
         
         // Load font

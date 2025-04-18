@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -Wall -Iinclude -Iinclude/GUI
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
-SRC = test.cpp
+SRC = main.cpp
 OUT = test
 
 all:
