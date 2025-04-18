@@ -4,7 +4,7 @@
 #include <vector>
 
 
-class BarChartApp
+class BarChartPoll
 {
 private:
     sf::RenderWindow window;
@@ -32,12 +32,12 @@ private:
     bool initialized;
     
 public:
-    BarChartApp() : initialized(false)
+    BarChartPoll() : initialized(false)
     {
         try {
             // Create window
             window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), 
-                          "SFML Bar Chart", 
+                          "Audience Poll Survey Results", 
                           sf::Style::Titlebar | sf::Style::Close);
             
             // Load embedded font

@@ -5,7 +5,7 @@
       "type": "multiple",
       "difficulty": "hard",
       "category": "Animals",
-      "question": "Which of the following is another name for the &quot;Poecilotheria Metallica Tarantula&quot;?",
+      "question": "Which of the following is another name for the 'Poecilotheria Metallica Tarantula'?",
       "correct_answer": "Gooty",
       "incorrect_answers": [
         "Hopper",
@@ -40,12 +40,12 @@
     {
       "type": "multiple",
       "difficulty": "hard",
-      "category": "Science &amp; Nature",
+      "category": "Science & Nature",
       "question": "What physics principle relates the net electric flux out of a closed surface to the charge enclosed by that surface?",
-      "correct_answer": "Gauss&#039;s Law",
+      "correct_answer": "Gauss's Law",
       "incorrect_answers": [
-        "Faraday&#039;s Law",
-        "Ampere&#039;s Law",
+        "Faraday's Law",
+        "Ampere's Law",
         "Biot-Savart Law"
       ]
     },
@@ -53,7 +53,7 @@
       "type": "multiple",
       "difficulty": "hard",
       "category": "Entertainment: Video Games",
-      "question": "In the Zombies mode of &quot;Call of Duty: Black Ops&quot;, what is the &quot;Pack-A-Punched&quot; version of the &quot;Galil&quot; called?",
+      "question": "In the Zombies mode of 'Call of Duty: Black Ops', what is the 'Pack-A-Punched' version of the 'Galil' called?",
       "correct_answer": "Lamentation",
       "incorrect_answers": [
         "Galvanized Atomic Lead Insertion Liquidator",
@@ -69,7 +69,7 @@
       "correct_answer": "Aragon",
       "incorrect_answers": [
         "Galicia",
-        "Le&oacute;n",
+        "León",
         "Navarre"
       ]
     },
@@ -89,43 +89,43 @@
       "type": "multiple",
       "difficulty": "hard",
       "category": "Vehicles",
-      "question": "What kind of train was Stepney, a train on the Bluebell Railway notable for his appearance in &quot;The Railway Series&quot;?",
-      "correct_answer": "LB&amp;SCR A1X",
+      "question": "What kind of train was Stepney, a train on the Bluebell Railway notable for his appearance in 'The Railway Series'?",
+      "correct_answer": "LB&SCR A1X",
       "incorrect_answers": [
-        "LB&amp;SCR E2",
-        "LB&amp;SCR J1",
-        "LB&amp;SCR D1"
+        "LB&SCR E2",
+        "LB&SCR J1",
+        "LB&SCR D1"
       ]
     },
     {
       "type": "multiple",
       "difficulty": "hard",
       "category": "Entertainment: Music",
-      "question": "&quot;All the Boys&quot; by Panic! At the Disco was released as a bonus track on what album?",
+      "question": "'All the Boys' by Panic! At the Disco was released as a bonus track on what album?",
       "correct_answer": "Too Weird To Live, Too Rare To Die!",
       "incorrect_answers": [
-        "A Fever You Can&#039;t Sweat Out",
+        "A Fever You Can't Sweat Out",
         "Death Of A Bachelor",
-        "Vices &amp; Virtues"
+        "Vices & Virtues"
       ]
     },
     {
       "type": "multiple",
       "difficulty": "hard",
       "category": "General Knowledge",
-      "question": "The word &quot;abulia&quot; means which of the following?",
+      "question": "The word 'abulia' means which of the following?",
       "correct_answer": "The inability to make decisions",
       "incorrect_answers": [
         "The inability to stand up",
         "The inability to concentrate on anything",
-        "A feverish desire to rip one&#039;s clothes off"
+        "A feverish desire to rip one's clothes off"
       ]
     },
     {
       "type": "multiple",
       "difficulty": "hard",
       "category": "Entertainment: Television",
-      "question": "Which of these voices wasn&#039;t a choice for the House AI in &quot;The Simpsons Treehouse of Horror&quot; short, House of Whacks?",
+      "question": "Which of these voices wasn't a choice for the House AI in 'The Simpsons Treehouse of Horror' short, House of Whacks?",
       "correct_answer": "George Clooney",
       "incorrect_answers": [
         "Matthew Perry",
@@ -137,7 +137,7 @@
       "type": "multiple",
       "difficulty": "hard",
       "category": "Entertainment: Board Games",
-      "question": "The board game &quot;Ra&quot; was designed by which designer? ",
+      "question": "The board game 'Ra' was designed by which designer? ",
       "correct_answer": "Reiner Knizia",
       "incorrect_answers": [
         "Bruno Cathala",
@@ -148,9 +148,9 @@
     {
       "type": "multiple",
       "difficulty": "hard",
-      "category": "Entertainment: Japanese Anime &amp; Manga",
-      "question": "&quot;Silhouette&quot;, a song performed by the group &#039;KANA-BOON&#039; is featured as the sixteenth opening of which anime?",
-      "correct_answer": "Naruto: Shipp\u016bden",
+      "category": "Entertainment: Japanese Anime & Manga",
+      "question": "'Silhouette', a song performed by the group 'KANA-BOON' is featured as the sixteenth opening of which anime?",
+      "correct_answer": "Naruto: Shippuden",
       "incorrect_answers": [
         "One Piece",
         "Naruto",
@@ -161,7 +161,7 @@
       "type": "multiple",
       "difficulty": "hard",
       "category": "Entertainment: Film",
-      "question": "In Big Hero 6, what were Baymax&#039;s motions modeled after?",
+      "question": "In Big Hero 6, what were Baymax's motions modeled after?",
       "correct_answer": "Baby penguins",
       "incorrect_answers": [
         "Baby monkeys",
