@@ -64,9 +64,7 @@ public:
         // Load font
         if (!font.loadFromFile("arial.ttf")) {
             // Try common font locations as fallback
-            if (!font.loadFromFile("C:/Windows/Fonts/arial.ttf") && 
-                !font.loadFromFile("/usr/share/fonts/LiberationSans-Regular.ttf") &&
-                !font.loadFromFile("/System/Library/Fonts/Helvetica.ttc")) {
+            if (!font.loadFromFile("/usr/share/fonts/LiberationSans-Regular.ttf")) {
                 throw runtime_error("Could not load font");
             }
         }

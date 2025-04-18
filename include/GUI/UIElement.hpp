@@ -61,7 +61,7 @@ public:
         // Center text in the box
         centerText();
     }
-    ~TextBox() {}
+    virtual ~TextBox() = default;
     
     void draw(RenderWindow& window) override {
         if (isVisible) {
@@ -127,7 +127,7 @@ public:
         // Center text
         centerText();
     }
-    ~Button() {}
+    virtual ~Button() = default;
     
     void draw(RenderWindow& window) override {
         if (isVisible) {
@@ -205,7 +205,7 @@ public:
         updateTimeDisplay();
         centerText();
     }
-    ~CountdownClock() {}
+    virtual ~CountdownClock() = default;
     
     void draw(RenderWindow& window) override {
         if (isVisible) {
@@ -348,7 +348,7 @@ public:
             tierTexts.push_back(tierText);
         }
     }
-    ~PrizeTierBoard() {}
+    virtual ~PrizeTierBoard() = default;
     
     void draw(RenderWindow& window) override {
         if (isVisible) {
