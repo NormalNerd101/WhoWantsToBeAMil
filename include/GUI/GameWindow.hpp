@@ -330,6 +330,7 @@ private:
 
     void handlePhoneFriend() {
         PhoneFriendApp phoneFriend;
+        phoneFriend.setCorrectAnswer(questions[currentIndex].getCorrectOption());
         phoneFriend.run();
     }
 
