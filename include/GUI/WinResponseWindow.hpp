@@ -9,14 +9,14 @@ private:
     Font font;
     Color backgroundColor;
     sf::RenderWindow window;
-    SimpleText* insultText;
+    SimpleText* CongratText;
     Button* RoundTwoButton;
     sf::Texture texture;
     sf::Sprite image;
     std::function<void()> onRoundTwoButtonClicked;
 
 public:
-    WinResponseWindow() : window(sf::VideoMode(700, 500), "Oh no .... Anyway", sf::Style::Close) {
+    WinResponseWindow() : window(sf::VideoMode(700, 500), "HELL YEAH!", sf::Style::Close) {
         window.setFramerateLimit(60);
 
         // Load font
@@ -31,7 +31,7 @@ public:
         ));
 
         // Create the text
-        insultText = new SimpleText(
+        CongratText = new SimpleText(
             sf::Vector2f(10, 30), // Position
             sf::Vector2f(0, 0), // Size
             &font,                  // Font
@@ -39,7 +39,7 @@ public:
             "Insult Text Element",  // Name
             50                  // Character size
         );
-        insultText->setText("\t\t\t Wait ...That's it?....");
+        CongratText->setText("  What a CHAD GYAT (ovO)");
 
 
         // set up image
@@ -61,10 +61,9 @@ public:
             sf::Vector2f(250, 380), // Position
             sf::Vector2f(200, 80), // Size
             &font,                  // Font
-            "Revenge?",            // Text
+            "Round Two?",            // Text
             "Revenge Button"       // Name
         );
-        RoundTwoButton->setText("Revenge?");
     }
 
     ~WinResponseWindow() {
@@ -112,7 +111,7 @@ private:
         window.clear(sf::Color(255, 171, 145, 255)); // Bright orange.
         
         // Draw the text and button
-        insultText->draw(window);
+        CongratText->draw(window);
         window.draw(image);
         RoundTwoButton->draw(window);
         

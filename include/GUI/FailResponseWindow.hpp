@@ -64,7 +64,6 @@ public:
             "Revenge?",            // Text
             "Revenge Button"       // Name
         );
-        revengeButton->setText("Revenge?");
     }
 
     ~FailResponseWindow() {

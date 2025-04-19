@@ -215,7 +215,7 @@ public:
         text.setFont(*font);
         text.setString(buttonText);
         text.setCharacterSize(24);
-        text.setFillColor(Color::White);
+        text.setFillColor(Color::Black);
         
         // Center text
         centerText();
@@ -346,6 +346,10 @@ public:
     
     void pause() {
         isRunning = false;
+    }
+
+    float getTimeRemaining () {
+        return this->remainingTime;
     }
     
     void reset(float newTime) {

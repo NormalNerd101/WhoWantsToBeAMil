@@ -396,6 +396,10 @@ private:
     void update() {
         // Update timer
         timer->update();
+
+        if (timer->getTimeRemaining() == 0.0) {
+            quitGame();
+        }
     }
     
     void render() {
@@ -579,65 +583,65 @@ void loadDataFromJson(vector<Question>& questions) {
         "data/medium.json",
         "data/hard.json"
     };
-
+    
     random_device rd;
     mt19937 g(rd()); // Random engine for shuffling and random selection
-
+    
+    // Clear any existing questions
+    questions.clear();
+    
     for (const auto& filename : database) {
         ifstream file(filename);
         if (!file) {
             cout << "Error opening file: " << filename << endl;
             continue;
         }
-
+        
         try {
             json Doc = json::parse(file);
-
             if (!Doc.contains("results") || !Doc["results"].is_array()) {
                 cout << "Error: Invalid JSON structure in file " << filename << endl;
                 continue;
             }
-
+            
             json data = Doc["results"];
-            long unsigned int toPick = min(5, (int)data.size()); // Pick 5 questions or as many as available
-
+            const int questionsToPickPerFile = 5; // Always pick exactly 5 questions from each file
+            
+            if (data.size() < questionsToPickPerFile) {
+                cout << "Warning: Not enough questions in " << filename << 
+                     ". Need " << questionsToPickPerFile << " but only found " << data.size() << endl;
+                continue;
+            }
+            
             set<int> usedIndexes;
             uniform_int_distribution<> dis(0, data.size() - 1);
-
             int attempts = 0;
-            const int maxAttempts = 20 * toPick;
-
-            while (usedIndexes.size() < toPick && attempts < maxAttempts) {
+            const int maxAttempts = 100; // Higher max attempts to ensure we get enough questions
+            
+            while (usedIndexes.size() < questionsToPickPerFile && attempts < maxAttempts) {
                 int randomIndex = dis(g);
-
                 if (usedIndexes.find(randomIndex) == usedIndexes.end()) {
                     auto& item = data[randomIndex];
-
                     if (!item.contains("correct_answer") ||
                         !item.contains("incorrect_answers") ||
                         !item["incorrect_answers"].is_array() ||
                         item["incorrect_answers"].size() < 3) {
-                        cout << "Error: Invalid question format at index " << randomIndex << " in file " << filename << endl;
                         attempts++;
                         continue;
                     }
-
+                    
                     usedIndexes.insert(randomIndex);
-
                     Question q;
                     vector<string> tempOptions(4);
-
                     string correctAnswer = item["correct_answer"];
                     tempOptions[0] = correctAnswer;
                     tempOptions[1] = item["incorrect_answers"][0];
                     tempOptions[2] = item["incorrect_answers"][1];
                     tempOptions[3] = item["incorrect_answers"][2];
-
                     shuffle(tempOptions.begin(), tempOptions.end(), g);
-
                     q.setOptions(tempOptions[0], tempOptions[1], tempOptions[2], tempOptions[3]);
                     q.setQuestionText(item["question"]);
-
+                    
                     // Find and set the correct answer index
                     for (int i = 0; i < 4; i++) {
                         if (tempOptions[i] == correctAnswer) {
@@ -645,14 +649,24 @@ void loadDataFromJson(vector<Question>& questions) {
                             break;
                         }
                     }
-
+                    
                     questions.push_back(q); // Directly append to the main questions list
                 }
                 attempts++;
+            }
+            
+            if (usedIndexes.size() < questionsToPickPerFile) {
+                cout << "Warning: Could only pick " << usedIndexes.size() << " questions from " << 
+                     filename << " instead of the required " << questionsToPickPerFile << endl;
             }
         }
         catch (const json::exception& e) {
             cout << "JSON error in file " << filename << ": " << e.what() << endl;
         }
+    }
+    
+    // Final check
+    if (questions.size() < 15) {
+        cout << "Warning: Only loaded " << questions.size() << " questions instead of 15" << endl;
     }
 }
