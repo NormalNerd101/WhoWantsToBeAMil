@@ -366,6 +366,7 @@ private:
         // redraw the UI elements
         questionBox->draw(window);
         for (auto button : answerButtons) {
+            button->setVisibility(true); // Make sure all buttons are visible
             button->draw(window);
         }
     }
