@@ -6,9 +6,12 @@
 #include <AudiencePoll.hpp>
 #include <PhoneFriend.hpp>
 
-// import relevant classes
+// import supporting classes
 #include <Questions.hpp>
 #include <json.hpp>
+
+// importing windows
+#include <ResponseWindow.hpp>
 
 using namespace std;
 using namespace sf;
@@ -266,6 +269,25 @@ public:
             render();
         }
     }
+
+    void restart() {
+        // Reset the game state
+        currentIndex = 0;
+        timer->reset(31);
+        prizeBoard->setCurrentTier(1);
+        
+        // Reset UI elements
+        questionBox->setText(questions[currentIndex].getQuestionText());
+        for (int i = 0; i < 4; i++) {
+            answerButtons[i]->setText(string(1, 'A' + i) + ". " + questions[currentIndex].getOptions()[i]);
+            answerButtons[i]->setVisibility(true);
+        }
+        
+        // Show all LifeLineSupport buttons
+        audiencePollBtn->setVisibility(true);
+        phoneFriendBtn->setVisibility(true);
+        fiftyFiftyBtn->setVisibility(true);
+    }
     
 private:
     void processEvents() {
@@ -315,16 +337,31 @@ private:
                     if (currentIndex < questions.size()) {
                         MovetoNextQuestion();
                     } else {
-                        // Handle end of game
-                        cout << "Game completed!" << endl;
+                        // Game over, player has answered all questions
+                        cout << "Congratulations! You've answered all questions!" << endl;
                     }
                 } else {
                     // Handle incorrect answer
                     cout << "Incorrect answer!" << endl;
+                    // Show response window
+                    showResponseWindow();
                 }
                 break; // Exit the loop after handling the clicked button
             }
         }
+    }
+
+    void showResponseWindow() {
+        ResponseWindow* responseWindow = new ResponseWindow();
+        
+        // Set what happens when "Revenge?" is clicked
+        responseWindow->setOnRevengeButtonClicked([this]() {
+            // What you want to happen when the button is clicked
+            restart();  // For example, restart the game
+        });
+        
+        responseWindow->open();  // Show the window
+        delete responseWindow;   // Clean up when done
     }
     
     void update() {

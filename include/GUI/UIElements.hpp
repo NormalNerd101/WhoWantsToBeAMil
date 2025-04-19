@@ -1,3 +1,4 @@
+# pragma once
 #include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
 
@@ -153,14 +154,15 @@ private:
 
 public:
     SimpleText(const Vector2f& pos, const Vector2f& sz, Font* fnt,
-        const string& displayText, const string& elementName)
+        const string& displayText, const string& elementName,
+        unsigned int characterSize = 16)  // <-- new parameter with default value
         : UIElement(pos, sz, elementName),
         font(fnt),
         textColor(Color::Black)
     {
         text.setFont(*font);
         text.setString(displayText);
-        text.setCharacterSize(16);
+        text.setCharacterSize(characterSize); // <-- use it here
         text.setFillColor(textColor);
         text.setPosition(pos);
     }
@@ -198,8 +200,8 @@ public:
             const string& buttonText, const string& elementName)
         : UIElement(pos, sz, elementName),
             font(fnt),
-            idleColor(Color(120, 120, 120)),
-            hoverColor(Color(140, 140, 140)),
+            idleColor(Color(128, 222, 234)),
+            hoverColor(Color(153, 222, 117)),
             activeColor(Color(160, 160, 160))
     {
         currentColor = idleColor;
