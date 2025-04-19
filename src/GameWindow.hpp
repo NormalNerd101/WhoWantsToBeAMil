@@ -97,7 +97,7 @@ public:
         });
 
         // Create the main window
-        window.create(VideoMode(1200, 600), "Who wants to be a FUCKING MILLIONAIRE, ey?", Style::Titlebar|Style::Close);
+        window.create(VideoMode(1200, 600), "Who wants to be a GODDAMN MILLIONAIRE, ey?", Style::Titlebar|Style::Close);
         window.setFramerateLimit(60);
         
         // Load font
