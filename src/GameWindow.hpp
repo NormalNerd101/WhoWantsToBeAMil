@@ -6,9 +6,14 @@
 #include <AudiencePoll.hpp>
 #include <PhoneFriend.hpp>
 
-// import relevant classes
+// import supporting classes
 #include <Questions.hpp>
 #include <json.hpp>
+
+// importing windows
+#include <EventManager.hpp>
+#include <WinResponseWindow.hpp>
+#include <FailResponseWindow.hpp>
 
 using namespace std;
 using namespace sf;
@@ -81,6 +86,16 @@ private:
 
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
+
+        // register for callback events
+        EventManager::getInstance().registerCallback("restartGame", [this]() {
+            this->restart();
+        });
+        
+        EventManager::getInstance().registerCallback("quitGame", [this]() {
+            this->restart();
+        });
+
         // Create the main window
         window.create(VideoMode(1200, 600), "Who wants to be a FUCKING MILLIONAIRE, ey?", Style::Titlebar|Style::Close);
         window.setFramerateLimit(60);
@@ -266,6 +281,32 @@ public:
             render();
         }
     }
+
+    void restart() {
+        // Reset the game state
+        currentIndex = 0;
+        timer->reset(31);
+        timer->start();
+        prizeBoard->setCurrentTier(1);
+
+        loadDataFromJson(questions);
+
+        // Reset tracking texts
+        questionTracking->setText("Question: " + to_string(prizeBoard->getCurrentTier()));
+        prizeTracking->setText("Prize: " + prizeBoard->getCurrentTierAmount(prizeBoard->getCurrentTier()));
+
+        // Reset UI elements
+        questionBox->setText(questions[currentIndex].getQuestionText());
+        for (int i = 0; i < 4; i++) {
+            answerButtons[i]->setText(string(1, 'A' + i) + ". " + questions[currentIndex].getOptions()[i]);
+            answerButtons[i]->setVisibility(true);
+        }
+        
+        // Show all LifeLineSupport buttons
+        audiencePollBtn->setVisibility(true);
+        phoneFriendBtn->setVisibility(true);
+        fiftyFiftyBtn->setVisibility(true);
+    }
     
 private:
     void processEvents() {
@@ -315,21 +356,50 @@ private:
                     if (currentIndex < questions.size()) {
                         MovetoNextQuestion();
                     } else {
-                        // Handle end of game
-                        cout << "Game completed!" << endl;
+                        // Game over, player has answered all questions
+                        cout << "Congratulations! You've answered all questions!" << endl;
+                        restartGame();
                     }
                 } else {
                     // Handle incorrect answer
                     cout << "Incorrect answer!" << endl;
+                    // Show response window
+                    quitGame();
                 }
                 break; // Exit the loop after handling the clicked button
             }
         }
     }
+
+    void quitGame() {
+        FailResponseWindow* responseWindow = new FailResponseWindow();
+        
+        responseWindow->setOnRevengeButtonClicked([this]() {
+            // What you want to happen when the button is clicked
+            restart();  // For example, restart the game
+        });
+        
+        responseWindow->open();  // Show the window
+        delete responseWindow;   // Clean up when done
+    }
+
+    void restartGame() {
+        WinResponseWindow* responseWindow = new WinResponseWindow();
+        responseWindow->setOnRoundTwoButtonClicked([this]() {
+            restart();
+        });
+
+        responseWindow->open();
+        delete responseWindow;
+    }
     
     void update() {
         // Update timer
         timer->update();
+
+        if (timer->getTimeRemaining() == 0.0) {
+            quitGame();
+        }
     }
     
     void render() {
@@ -513,65 +583,65 @@ void loadDataFromJson(vector<Question>& questions) {
         "data/medium.json",
         "data/hard.json"
     };
-
+    
     random_device rd;
     mt19937 g(rd()); // Random engine for shuffling and random selection
-
+    
+    // Clear any existing questions
+    questions.clear();
+    
     for (const auto& filename : database) {
         ifstream file(filename);
         if (!file) {
             cout << "Error opening file: " << filename << endl;
             continue;
         }
-
+        
         try {
             json Doc = json::parse(file);
-
             if (!Doc.contains("results") || !Doc["results"].is_array()) {
                 cout << "Error: Invalid JSON structure in file " << filename << endl;
                 continue;
             }
-
+            
             json data = Doc["results"];
-            long unsigned int toPick = min(5, (int)data.size()); // Pick 5 questions or as many as available
-
+            const int questionsToPickPerFile = 5; // Always pick exactly 5 questions from each file
+            
+            if (data.size() < questionsToPickPerFile) {
+                cout << "Warning: Not enough questions in " << filename << 
+                     ". Need " << questionsToPickPerFile << " but only found " << data.size() << endl;
+                continue;
+            }
+            
             set<int> usedIndexes;
             uniform_int_distribution<> dis(0, data.size() - 1);
-
             int attempts = 0;
-            const int maxAttempts = 20 * toPick;
-
-            while (usedIndexes.size() < toPick && attempts < maxAttempts) {
+            const int maxAttempts = 100; // Higher max attempts to ensure we get enough questions
+            
+            while (usedIndexes.size() < questionsToPickPerFile && attempts < maxAttempts) {
                 int randomIndex = dis(g);
-
                 if (usedIndexes.find(randomIndex) == usedIndexes.end()) {
                     auto& item = data[randomIndex];
-
                     if (!item.contains("correct_answer") ||
                         !item.contains("incorrect_answers") ||
                         !item["incorrect_answers"].is_array() ||
                         item["incorrect_answers"].size() < 3) {
-                        cout << "Error: Invalid question format at index " << randomIndex << " in file " << filename << endl;
                         attempts++;
                         continue;
                     }
-
+                    
                     usedIndexes.insert(randomIndex);
-
                     Question q;
                     vector<string> tempOptions(4);
-
                     string correctAnswer = item["correct_answer"];
                     tempOptions[0] = correctAnswer;
                     tempOptions[1] = item["incorrect_answers"][0];
                     tempOptions[2] = item["incorrect_answers"][1];
                     tempOptions[3] = item["incorrect_answers"][2];
-
                     shuffle(tempOptions.begin(), tempOptions.end(), g);
-
                     q.setOptions(tempOptions[0], tempOptions[1], tempOptions[2], tempOptions[3]);
                     q.setQuestionText(item["question"]);
-
+                    
                     // Find and set the correct answer index
                     for (int i = 0; i < 4; i++) {
                         if (tempOptions[i] == correctAnswer) {
@@ -579,14 +649,24 @@ void loadDataFromJson(vector<Question>& questions) {
                             break;
                         }
                     }
-
+                    
                     questions.push_back(q); // Directly append to the main questions list
                 }
                 attempts++;
+            }
+            
+            if (usedIndexes.size() < questionsToPickPerFile) {
+                cout << "Warning: Could only pick " << usedIndexes.size() << " questions from " << 
+                     filename << " instead of the required " << questionsToPickPerFile << endl;
             }
         }
         catch (const json::exception& e) {
             cout << "JSON error in file " << filename << ": " << e.what() << endl;
         }
+    }
+    
+    // Final check
+    if (questions.size() < 15) {
+        cout << "Warning: Only loaded " << questions.size() << " questions instead of 15" << endl;
     }
 }

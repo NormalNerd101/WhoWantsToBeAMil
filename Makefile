@@ -1,8 +1,8 @@
 CXX = g++
-CXXFLAGS = -Wall -Iinclude -Iinclude/GUI
+CXXFLAGS = -Wall -Iinclude -Isrc/
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 SRC = main.cpp
-OUT = test
+OUT = main
 
 all:
 	$(CXX) $(CXXFLAGS) $(SRC) -o $(OUT) $(LIBS)
