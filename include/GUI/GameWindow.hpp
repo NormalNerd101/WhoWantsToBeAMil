@@ -6,7 +6,7 @@
 #include <AudiencePoll.hpp>
 #include <PhoneFriend.hpp>
 
-// import other classes
+// import relevant classes
 #include <Questions.hpp>
 #include <json.hpp>
 
@@ -72,16 +72,26 @@ private:
     // Questions and Answers from database
     vector<Question> questions;
     size_t currentIndex = 0;
-    
+
+
+    // Tracking texts in top-right panel
+    Font fontTracking;
+    SimpleText* questionTracking;
+    SimpleText* prizeTracking;
 
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
         // Create the main window
-        window.create(VideoMode(1030, 600), "Who wants to be a FUCKING MILLIONAIRE, ey?", Style::Titlebar|Style::Close);
+        window.create(VideoMode(1200, 600), "Who wants to be a FUCKING MILLIONAIRE, ey?", Style::Titlebar|Style::Close);
         window.setFramerateLimit(60);
         
         // Load font
         if (!font.loadFromFile("assets/fonts/LiberationSans-Regular.ttf")) {
+            throw runtime_error("Could not load font");
+        }
+
+        // Load font for tracking texts
+        if (!fontTracking.loadFromFile("assets/fonts/LiberationSans-Bold.ttf")) {
             throw runtime_error("Could not load font");
         }
 
@@ -112,7 +122,7 @@ public:
             Color(140, 206, 242, 255),              // Color
             "Question Panel"                        // Name
         );
-        
+
         // Center bottom panel for answers
         panels.emplace_back(
             Vector2f(220, 300),                     // Position
@@ -121,15 +131,50 @@ public:
             "Answer Options Panel"                  // Name
         );
         
-        // Right panel for prize board
+        // Panel for prize board
         panels.emplace_back(
             Vector2f(830, 10),                      // Position
-            Vector2f(190, 580),                     // Size
+            Vector2f(160, 580),                     // Size
             Color(218, 112, 112, 255),              // Color
             "Prize Board Panel"                     // Name
         );
+
+        // Panel for tracking questions and prizes.
+        panels.emplace_back(
+            Vector2f(995, 10),                     // Position
+            Vector2f(190, 580),                      // Size
+            Color(255, 238, 88, 255),              // Color
+            "Question Tracking Panel"               // Name
+        );
+
         
         // Create UI elements
+
+        // Prize board in right panel
+        prizeBoard = new PrizeTierBoard(
+            Vector2f(830, 10),                      // Position
+            Vector2f(190, 580),                     // Size
+            &font,                                  // Font
+            "Prize Tier Board"                      // Name
+        );
+
+        // Tracking texts in top-right panel
+        questionTracking = new SimpleText(
+            Vector2f(1000, 10),                     // Position
+            Vector2f(175, 20),                      // Size
+            &fontTracking,                          // Font
+            "Question: " + to_string(prizeBoard->getCurrentTier()),                    // Default text
+            "Question Tracking Text"                // Name
+        );
+
+        prizeTracking = new SimpleText(
+            Vector2f(1000, 30),                     // Position
+            Vector2f(175, 100),                      // Size
+            &fontTracking,                           // Font
+            "Prize: " + prizeBoard->getCurrentTierAmount(prizeBoard->getCurrentTier()),                       // Default text
+            "Prize Tracking Text"                   // Name
+        );
+
         // Question box in center top panel
         questionBox = new TextBox(
             Vector2f(240, 30),                      // Position
@@ -139,7 +184,7 @@ public:
             "Question Text"                         // Name
         );
         
-        // Answer buttons in center bottom panel
+        // Initiate answer buttons in center bottom panel
         string answerOptions[4] = {};
         for (int i = 0; i < 4; i++) {
             answerOptions[i] = questions[currentIndex].getOptions()[i];
@@ -150,7 +195,7 @@ public:
                 Vector2f(240, 320 + i * 65),        // Position (stacked vertically)
                 Vector2f(560, 55),                  // Size
                 &font,                              // Font
-                answerOptions[i],                   // Text
+                string(1,'A' + i) + ". " + answerOptions[i],                   // Text
                 "Answer " + to_string(i + 1)        // Name
             );
             answerButtons.push_back(btn);
@@ -199,14 +244,6 @@ public:
         fiftyFiftyBtn->setIdleColor(Color(255, 152, 0, 100));
         fiftyFiftyBtn->setHoverColor(Color(255, 152, 0, 77));
         fiftyFiftyBtn->setActiveColor(Color(140, 190, 140));
-        
-        // Prize board in right panel
-        prizeBoard = new PrizeTierBoard(
-            Vector2f(830, 10),                      // Position
-            Vector2f(190, 580),                     // Size
-            &font,                                  // Font
-            "Prize Tier Board"                      // Name
-        );
     }
     
     ~Application() {
@@ -273,7 +310,7 @@ private:
                 cout << "Selected answer: " << answerButtons[i]->getName() << endl;
                 
                 // Check if the selected answer is correct
-                if (answerButtons[i]->gettext() == questions[currentIndex].getCorrectOption()) {
+                if (isContained(answerButtons[i]->gettext(), questions[currentIndex].getCorrectOption())) {
                     currentIndex++;
                     if (currentIndex < questions.size()) {
                         MovetoNextQuestion();
@@ -304,6 +341,7 @@ private:
         }
         
         // Draw UI elements
+        // Draw question box and answer buttons
         questionBox->draw(window);
         for (auto button : answerButtons) {
             button->draw(window);
@@ -316,29 +354,107 @@ private:
 
         timer->draw(window);
         prizeBoard->draw(window);
+
+        // Draw tracking texts
+        questionTracking->draw(window);
+        prizeTracking->draw(window);
         
         window.display();
     }
 
     // Add any additional methods for handling game logic, events, etc.
 
+    bool isContained(const string& mainString, const string& subString) {
+        return mainString.find(subString) != string::npos;
+    }
+
     void handleAudiencePoll() {
-        // Handle audience poll logic
+        // Use proper random number generation
+        random_device rd;
+        mt19937 gen(rd());
+        
         BarChartPoll poll;
+        vector<float> percentages(4, 0.0f);
+        int correctIndex = questions[currentIndex].getCorrectOptionIndex();
+        
+        // Create a more natural distribution
+        // Dirichlet-like distribution for audience polls
+        vector<float> weights(4, 1.0f);
+        
+        // Give the correct answer a variable advantage
+        // between 1.5x and 3x more likely to be chosen
+        uniform_real_distribution<float> advantageDist(1.5f, 3.0f);
+        weights[correctIndex] *= advantageDist(gen);
+        
+        // Generate raw values based on gamma distribution for each option
+        vector<float> rawValues(4);
+        float sum = 0.0f;
+        
+        for (int i = 0; i < 4; ++i) {
+            gamma_distribution<float> gammaDist(weights[i], 1.0f);
+            rawValues[i] = gammaDist(gen);
+            sum += rawValues[i];
+        }
+        
+        // Normalize to percentages that sum to 100%
+        for (int i = 0; i < 4; ++i) {
+            percentages[i] = (rawValues[i] / sum) * 100.0f;
+        }
+        
+        // Optional: Add small random noise to make it look more "human"
+        normal_distribution<float> noiseDist(0.0f, 0.5f);
+        
+        // Add noise but preserve sum of 100%
+        float noiseSum = 0.0f;
+        for (int i = 0; i < 4; ++i) {
+            float noise = noiseDist(gen);
+            percentages[i] += noise;
+            noiseSum += noise;
+        }
+        
+        // Adjust to ensure sum is still 100%
+        for (int i = 0; i < 4; ++i) {
+            percentages[i] -= noiseSum / 4.0f;
+            
+            // Ensure no negative percentages
+            percentages[i] = max(0.0f, percentages[i]);
+        }
+        
+        // Final normalization to exactly 100%
+        sum = accumulate(percentages.begin(), percentages.end(), 0.0f);
+        for (int i = 0; i < 4; ++i) {
+            percentages[i] = (percentages[i] / sum) * 100.0f;
+        }
+        
+        // Round to one decimal place for display
+        for (int i = 0; i < 4; ++i) {
+            percentages[i] = round(percentages[i] * 10.0f) / 10.0f;
+        }
+        
+        // Adjust final rounding errors if needed
+        float finalSum = accumulate(percentages.begin(), percentages.end(), 0.0f);
+        if (abs(finalSum - 100.0f) > 0.1f) {
+            // Add the difference to the largest value to maintain 100% sum
+            int largestIdx = max_element(percentages.begin(), percentages.end()) - percentages.begin();
+            percentages[largestIdx] += (100.0f - finalSum);
+        }
+        
+        poll.setPercentages(percentages);
         poll.run();
     }
+    
 
     void handlePhoneFriend() {
         PhoneFriendApp phoneFriend;
+        phoneFriend.setCorrectAnswer(questions[currentIndex].getCorrectOption());
         phoneFriend.run();
     }
 
     void handleFiftyFifty() {
         // we'll remove two wrong answers from the answer buttons.
-        string correctAnswer = questions[currentIndex].getCorrectOption();
         vector<Button*> wrongAnswers;
         for (auto button : answerButtons) {
-            if (button->gettext() != correctAnswer) {
+            if (!isContained(button->gettext(), questions[currentIndex].getCorrectOption())) {
                 wrongAnswers.push_back(button);
             }
         }
@@ -360,14 +476,22 @@ private:
         questionBox->setText(questions[currentIndex].getQuestionText());
         vector<string> options = questions[currentIndex].getOptions();
         for (int i = 0; i < 4; i++) {
-            answerButtons[i]->setText(questions[currentIndex].getOptions()[i]);
+            answerButtons[i]->setText(string(1, 'A' + i) + ". " + questions[currentIndex].getOptions()[i]);
         }
 
         // redraw the UI elements
         questionBox->draw(window);
         for (auto button : answerButtons) {
+            button->setVisibility(true); // Make sure all buttons are visible
             button->draw(window);
         }
+        timer->reset(31);
+        timer->start();
+
+        // Update tracking texts
+        prizeBoard->setCurrentTier(prizeBoard->getCurrentTier() + 1);
+        questionTracking->setText("Question: " + to_string(prizeBoard->getCurrentTier()));
+        prizeTracking->setText("Prize: " + prizeBoard->getCurrentTierAmount(prizeBoard->getCurrentTier()));
     }
 };
 
@@ -398,7 +522,7 @@ void loadDataFromJson(vector<Question>& questions) {
             }
 
             json data = Doc["results"];
-            int toPick = min(5, (int)data.size()); // Pick 5 questions or as many as available
+            long unsigned int toPick = min(5, (int)data.size()); // Pick 5 questions or as many as available
 
             set<int> usedIndexes;
             uniform_int_distribution<> dis(0, data.size() - 1);

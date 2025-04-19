@@ -9,8 +9,8 @@ const std::string WINDOW_TITLE = "Phone A Friend";
 
 // Asset paths
 // TODO: Replace these with your actual asset paths
-const std::string FRIEND_IMAGE_PATH = "include/GUI/assets/friend.png";  // Place your friend image here
-const string CORRECT_ANSWER = "C.";  // You can modify this to be A, B, C, or D
+const std::string FRIEND_IMAGE_PATH = "assets/friend.png";  // Place your friend image here
+
 
 class PhoneFriendApp {
 private:
@@ -21,10 +21,11 @@ private:
     sf::Text messageText;
     sf::RectangleShape backgroundShape;
     sf::RectangleShape dividerLine;
+    std::string CORRECT_ANSWER;
     
     bool loadResources() {
         // Load font
-        if (!font.loadFromFile("/usr/share/fonts/LiberationSans-Bold.ttf")) {  // Place your preferred font here
+        if (!font.loadFromFile("assets/fonts/LiberationSans-Bold.ttf")) {  // Place your preferred font here
             std::cerr << "Failed to load font!" << std::endl;
             return false;
         }
@@ -131,4 +132,18 @@ public:
         
         window.display();
     }
+
+    void setCorrectAnswer(const std::string& answer) {
+        CORRECT_ANSWER = answer;
+        
+        // Rebuild the message text
+        std::string message = "\tHi! Congratulations for going this far!\n\n\tHmm....I've read this somewhere.\n\tI think the answer is ";
+        message += CORRECT_ANSWER;
+        messageText.setString(message);
+        
+        // Recenter text
+        float textX = (WINDOW_WIDTH - messageText.getGlobalBounds().width) / 2.0f;
+        float textY = dividerLine.getPosition().y + 10.0f;
+        messageText.setPosition(textX, textY);
+    }    
 };

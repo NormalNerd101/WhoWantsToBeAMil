@@ -60,6 +60,7 @@ public:
         
         // Center text in the box
         centerText();
+        fitAndWrapText();
     }
     virtual ~TextBox() = default;
     
@@ -77,8 +78,11 @@ public:
     
     void setText(const string& newText) {
         content = newText;
-        text.setString(content);
-        centerText();
+        fitAndWrapText();
+    }
+
+    void removeBackground() {
+        background.setFillColor(Color::Transparent);
     }
     
 private:
@@ -89,7 +93,94 @@ private:
             position.y + (size.y - textBounds.height) / 2.0f - textBounds.top
         );
     }
+
+    void fitAndWrapText() {
+        const float padding = 10.0f;
+        float maxWidth = size.x - 2 * padding;
+        float maxHeight = size.y - 2 * padding;
+    
+        text.setCharacterSize(24); // Reset to default size first
+        unsigned int characterSize = text.getCharacterSize();
+    
+        bool fits = false;
+    
+        while (characterSize > 5 && !fits) {
+            // Create a temporary text object for measuring
+            Text tempText(text);
+            tempText.setCharacterSize(characterSize);
+    
+            std::string finalText;
+            std::string currentLine;
+            std::istringstream words(content);
+            std::string word;
+    
+            while (words >> word) {
+                std::string testLine = currentLine + (currentLine.empty() ? "" : " ") + word;
+                tempText.setString(testLine);
+                if (tempText.getLocalBounds().width > maxWidth) {
+                    if (!currentLine.empty()) {
+                        finalText += currentLine + '\n';
+                    }
+                    currentLine = word;
+                } else {
+                    currentLine = testLine;
+                }
+            }
+            finalText += currentLine;
+    
+            // Set real text only after finishing wrapping
+            text.setCharacterSize(characterSize);
+            text.setString(finalText);
+    
+            FloatRect bounds = text.getLocalBounds();
+            if (bounds.height <= maxHeight) {
+                fits = true;
+            } else {
+                characterSize--; // Shrink and try again
+            }
+        }
+    
+        centerText();
+    }    
 };
+
+// Simple text display
+class SimpleText : public UIElement {
+private:
+    Text text;
+    Font* font;
+    Color textColor;
+
+public:
+    SimpleText(const Vector2f& pos, const Vector2f& sz, Font* fnt,
+        const string& displayText, const string& elementName)
+        : UIElement(pos, sz, elementName),
+        font(fnt),
+        textColor(Color::Black)
+    {
+        text.setFont(*font);
+        text.setString(displayText);
+        text.setCharacterSize(16);
+        text.setFillColor(textColor);
+        text.setPosition(pos);
+    }
+
+    bool contains(const Vector2i& point) const override {
+        FloatRect bounds = text.getGlobalBounds();
+        return bounds.contains(static_cast<float>(point.x), static_cast<float>(point.y));
+    }
+
+    void setText(const string& newText) {
+        text.setString(newText);
+    }
+
+    void draw(RenderWindow& window) override {
+        if (isVisible) {
+            window.draw(text);
+        }
+    }
+};
+    
 
 // Button class
 class Button : public UIElement {
@@ -307,7 +398,7 @@ public:
     PrizeTierBoard(const Vector2f& pos, const Vector2f& sz, Font* fnt, const string& elementName)
         : UIElement(pos, sz, elementName),
             font(fnt),
-            currentTier(0)
+            currentTier(1)
     {
         // Initialize prize tiers (customize as needed)
         tiers = {
@@ -381,11 +472,12 @@ public:
         for (auto& t : tiers) {
             t.isCurrentQuestion = false;
         }
-        
+    
         // Set new current tier
         if (tier >= 1 && tier <= 15) {
             tiers[15 - tier].isCurrentQuestion = true;
-            
+            this->currentTier = tier;  
+    
             // Update text colors
             for (size_t i = 0; i < tiers.size(); i++) {
                 if (tiers[i].isCurrentQuestion) {
@@ -397,5 +489,18 @@ public:
                 }
             }
         }
+    }
+    
+    // Get the amount for the current tier
+    string getCurrentTierAmount(int tier) {
+        if (tier >= 1 && tier <= 15) {
+            return this->tiers[15 - tier].amount;
+        } else {
+            return "Invalid tier";
+        }
+    }
+
+    int getCurrentTier() {
+        return this->currentTier;
     }
 };

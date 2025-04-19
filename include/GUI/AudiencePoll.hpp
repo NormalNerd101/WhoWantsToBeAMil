@@ -14,8 +14,9 @@ private:
     // Bar data
     const int NUM_BARS = 4;
     std::string labels[4] = {"A", "B", "C", "D"};
-    float percentages[4] = {10.0f, 16.0f, 70.0f, 4.0f};
-    
+    float percentages[4] = {10.0f, 16.0f, 71.0f, 3.0f};
+
+
     // Bar properties
     const float BAR_WIDTH = 80.0f;
     const float BAR_GAP = 40.0f;
@@ -41,7 +42,7 @@ public:
                           sf::Style::Titlebar | sf::Style::Close);
             
             // Load embedded font
-            if (!font.loadFromFile("/usr/share/fonts/LiberationSans-Bold.ttf")) {
+            if (!font.loadFromFile("assets/fonts/LiberationSans-Bold.ttf")) {
                 std::cerr << "Error loading embedded font!" << std::endl;
                 // If the embedded font fails, we'll try a very simple fallback approach
                 createSimpleFont();
@@ -66,6 +67,12 @@ public:
         {
             processEvents();
             render();
+        }
+    }
+
+    void setPercentages(const std::vector<float>& newPercentages) {
+        for (int i = 0; i < 4; ++i) {
+            percentages[i] = newPercentages[i];
         }
     }
     
