@@ -41,7 +41,7 @@ public:
                           sf::Style::Titlebar | sf::Style::Close);
             
             // Load embedded font
-            if (!font.loadFromFile("/usr/share/fonts/LiberationSans-Bold.ttf")) {
+            if (!font.loadFromFile("assets/fonts/LiberationSans-Bold.ttf")) {
                 std::cerr << "Error loading embedded font!" << std::endl;
                 // If the embedded font fails, we'll try a very simple fallback approach
                 createSimpleFont();
