@@ -323,10 +323,80 @@ private:
     // Add any additional methods for handling game logic, events, etc.
 
     void handleAudiencePoll() {
-        // Handle audience poll logic
+        // Use proper random number generation
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        
         BarChartPoll poll;
+        std::vector<float> percentages(4, 0.0f);
+        int correctIndex = questions[currentIndex].getCorrectOptionIndex();
+        
+        // Create a more natural distribution
+        // Dirichlet-like distribution for audience polls
+        std::vector<float> weights(4, 1.0f);
+        
+        // Give the correct answer a variable advantage
+        // between 1.5x and 3x more likely to be chosen
+        std::uniform_real_distribution<float> advantageDist(1.5f, 3.0f);
+        weights[correctIndex] *= advantageDist(gen);
+        
+        // Generate raw values based on gamma distribution for each option
+        std::vector<float> rawValues(4);
+        float sum = 0.0f;
+        
+        for (int i = 0; i < 4; ++i) {
+            std::gamma_distribution<float> gammaDist(weights[i], 1.0f);
+            rawValues[i] = gammaDist(gen);
+            sum += rawValues[i];
+        }
+        
+        // Normalize to percentages that sum to 100%
+        for (int i = 0; i < 4; ++i) {
+            percentages[i] = (rawValues[i] / sum) * 100.0f;
+        }
+        
+        // Optional: Add small random noise to make it look more "human"
+        std::normal_distribution<float> noiseDist(0.0f, 0.5f);
+        
+        // Add noise but preserve sum of 100%
+        float noiseSum = 0.0f;
+        for (int i = 0; i < 4; ++i) {
+            float noise = noiseDist(gen);
+            percentages[i] += noise;
+            noiseSum += noise;
+        }
+        
+        // Adjust to ensure sum is still 100%
+        for (int i = 0; i < 4; ++i) {
+            percentages[i] -= noiseSum / 4.0f;
+            
+            // Ensure no negative percentages
+            percentages[i] = std::max(0.0f, percentages[i]);
+        }
+        
+        // Final normalization to exactly 100%
+        sum = std::accumulate(percentages.begin(), percentages.end(), 0.0f);
+        for (int i = 0; i < 4; ++i) {
+            percentages[i] = (percentages[i] / sum) * 100.0f;
+        }
+        
+        // Round to one decimal place for display
+        for (int i = 0; i < 4; ++i) {
+            percentages[i] = std::round(percentages[i] * 10.0f) / 10.0f;
+        }
+        
+        // Adjust final rounding errors if needed
+        float finalSum = std::accumulate(percentages.begin(), percentages.end(), 0.0f);
+        if (std::abs(finalSum - 100.0f) > 0.1f) {
+            // Add the difference to the largest value to maintain 100% sum
+            int largestIdx = std::max_element(percentages.begin(), percentages.end()) - percentages.begin();
+            percentages[largestIdx] += (100.0f - finalSum);
+        }
+        
+        poll.setPercentages(percentages);
         poll.run();
     }
+    
 
     void handlePhoneFriend() {
         PhoneFriendApp phoneFriend;
@@ -339,7 +409,7 @@ private:
         string correctAnswer = questions[currentIndex].getCorrectOption();
         vector<Button*> wrongAnswers;
         for (auto button : answerButtons) {
-            if (button->gettext() != correctAnswer) {
+            if (button->gettext().find(correctAnswer) == string::npos) {
                 wrongAnswers.push_back(button);
             }
         }
@@ -400,7 +470,7 @@ void loadDataFromJson(vector<Question>& questions) {
             }
 
             json data = Doc["results"];
-            int toPick = min(5, (int)data.size()); // Pick 5 questions or as many as available
+            long unsigned int toPick = min(5, (int)data.size()); // Pick 5 questions or as many as available
 
             set<int> usedIndexes;
             uniform_int_distribution<> dis(0, data.size() - 1);

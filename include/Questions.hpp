@@ -23,7 +23,7 @@ public:
   // getter
   string getQuestionText() const { return questionText; }
   vector<string> getOptions() const { return options; }
-  int getCorrectOptionIndex() const;
+  int getCorrectOptionIndex() const { return correctOptionIndex; };
   string getCorrectOption() const { return options[correctOptionIndex]; }
   string getDifficultyLevel() const { return difficultyLevel; }
 
