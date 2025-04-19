@@ -11,6 +11,8 @@
 #include <json.hpp>
 
 // importing windows
+#include <EventManager.hpp>
+#include <WinResponseWindow.hpp>
 #include <FailResponseWindow.hpp>
 
 using namespace std;
@@ -84,6 +86,16 @@ private:
 
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
+
+        // register for callback events
+        EventManager::getInstance().registerCallback("restartGame", [this]() {
+            this->restart();
+        });
+        
+        EventManager::getInstance().registerCallback("quitGame", [this]() {
+            this->restart();
+        });
+
         // Create the main window
         window.create(VideoMode(1200, 600), "Who wants to be a FUCKING MILLIONAIRE, ey?", Style::Titlebar|Style::Close);
         window.setFramerateLimit(60);
@@ -346,22 +358,22 @@ private:
                     } else {
                         // Game over, player has answered all questions
                         cout << "Congratulations! You've answered all questions!" << endl;
+                        restartGame();
                     }
                 } else {
                     // Handle incorrect answer
                     cout << "Incorrect answer!" << endl;
                     // Show response window
-                    showResponseWindow();
+                    quitGame();
                 }
                 break; // Exit the loop after handling the clicked button
             }
         }
     }
 
-    void showResponseWindow() {
-        ResponseWindow* responseWindow = new ResponseWindow();
+    void quitGame() {
+        FailResponseWindow* responseWindow = new FailResponseWindow();
         
-        // Set what happens when "Revenge?" is clicked
         responseWindow->setOnRevengeButtonClicked([this]() {
             // What you want to happen when the button is clicked
             restart();  // For example, restart the game
@@ -369,6 +381,16 @@ private:
         
         responseWindow->open();  // Show the window
         delete responseWindow;   // Clean up when done
+    }
+
+    void restartGame() {
+        WinResponseWindow* responseWindow = new WinResponseWindow();
+        responseWindow->setOnRoundTwoButtonClicked([this]() {
+            restart();
+        });
+
+        responseWindow->open();
+        delete responseWindow;
     }
     
     void update() {

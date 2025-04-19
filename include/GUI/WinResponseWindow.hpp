@@ -2,21 +2,21 @@
 #include <SFML/Graphics.hpp>
 #include <UIElements.hpp>
 
-const std::string MEME_IMAGE_PATH = "assets/meme.jpg";
+const std::string CHAD_IMAGE_PATH = "assets/damn.jpg";
 
-class FailResponseWindow {
+class WinResponseWindow {
 private:
     Font font;
     Color backgroundColor;
     sf::RenderWindow window;
     SimpleText* insultText;
-    Button* revengeButton;
+    Button* RoundTwoButton;
     sf::Texture texture;
     sf::Sprite image;
-    std::function<void()> onRevengeButtonClicked;
+    std::function<void()> onRoundTwoButtonClicked;
 
 public:
-    FailResponseWindow() : window(sf::VideoMode(700, 500), "Oh no .... Anyway", sf::Style::Close) {
+    WinResponseWindow() : window(sf::VideoMode(700, 500), "Oh no .... Anyway", sf::Style::Close) {
         window.setFramerateLimit(60);
 
         // Load font
@@ -43,7 +43,7 @@ public:
 
 
         // set up image
-        if (!texture.loadFromFile(MEME_IMAGE_PATH)) {
+        if (!texture.loadFromFile(CHAD_IMAGE_PATH)) {
             throw std::runtime_error("Could not load image");
         }
         image.setTexture(texture); // you forgot this!
@@ -57,18 +57,18 @@ public:
 
 
         // Create the button
-        revengeButton = new Button(
+        RoundTwoButton = new Button(
             sf::Vector2f(250, 380), // Position
             sf::Vector2f(200, 80), // Size
             &font,                  // Font
             "Revenge?",            // Text
             "Revenge Button"       // Name
         );
-        revengeButton->setText("Revenge?");
+        RoundTwoButton->setText("Revenge?");
     }
 
-    ~FailResponseWindow() {
-        delete revengeButton;
+    ~WinResponseWindow() {
+        delete RoundTwoButton;
     }
 
     void open() {
@@ -78,8 +78,8 @@ public:
         }
     }
 
-    void setOnRevengeButtonClicked(std::function<void()> callback) {
-        onRevengeButtonClicked = callback;
+    void setOnRoundTwoButtonClicked(std::function<void()> callback) {
+        onRoundTwoButtonClicked = callback;
     }
 
 private:
@@ -91,17 +91,17 @@ private:
             }
             
             // Handle mouse events
-            revengeButton->handleEvent(event);
+            RoundTwoButton->handleEvent(event);
 
             if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 
-                if (revengeButton->contains(mousePos)) {
+                if (RoundTwoButton->contains(mousePos)) {
                     // close the window
                     window.close();
                     // Call the callback function if set
-                    if (onRevengeButtonClicked) {
-                        onRevengeButtonClicked();
+                    if (onRoundTwoButtonClicked) {
+                        onRoundTwoButtonClicked();
                     }
                 }
             }
@@ -114,8 +114,10 @@ private:
         // Draw the text and button
         insultText->draw(window);
         window.draw(image);
-        revengeButton->draw(window);
+        RoundTwoButton->draw(window);
         
         window.display();
     }
 };
+
+
