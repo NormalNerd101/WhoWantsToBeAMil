@@ -60,6 +60,7 @@ public:
         
         // Center text in the box
         centerText();
+        fitAndWrapText();
     }
     virtual ~TextBox() = default;
     
@@ -79,6 +80,10 @@ public:
         content = newText;
         fitAndWrapText();
     }
+
+    void removeBackground() {
+        background.setFillColor(Color::Transparent);
+    }
     
 private:
     void centerText() {
@@ -97,14 +102,13 @@ private:
         text.setCharacterSize(24); // Reset to default size first
         unsigned int characterSize = text.getCharacterSize();
     
-        std::string wrappedText = content;
         bool fits = false;
     
         while (characterSize > 5 && !fits) {
-            text.setCharacterSize(characterSize);
-            text.setString(wrappedText);
+            // Create a temporary text object for measuring
+            Text tempText(text);
+            tempText.setCharacterSize(characterSize);
     
-            // Wrap text
             std::string finalText;
             std::string currentLine;
             std::istringstream words(content);
@@ -112,8 +116,8 @@ private:
     
             while (words >> word) {
                 std::string testLine = currentLine + (currentLine.empty() ? "" : " ") + word;
-                text.setString(testLine);
-                if (text.getLocalBounds().width > maxWidth) {
+                tempText.setString(testLine);
+                if (tempText.getLocalBounds().width > maxWidth) {
                     if (!currentLine.empty()) {
                         finalText += currentLine + '\n';
                     }
@@ -124,9 +128,10 @@ private:
             }
             finalText += currentLine;
     
+            // Set real text only after finishing wrapping
+            text.setCharacterSize(characterSize);
             text.setString(finalText);
     
-            // Check if total height fits
             FloatRect bounds = text.getLocalBounds();
             if (bounds.height <= maxHeight) {
                 fits = true;
@@ -136,8 +141,46 @@ private:
         }
     
         centerText();
+    }    
+};
+
+// Simple text display
+class SimpleText : public UIElement {
+private:
+    Text text;
+    Font* font;
+    Color textColor;
+
+public:
+    SimpleText(const Vector2f& pos, const Vector2f& sz, Font* fnt,
+        const string& displayText, const string& elementName)
+        : UIElement(pos, sz, elementName),
+        font(fnt),
+        textColor(Color::Black)
+    {
+        text.setFont(*font);
+        text.setString(displayText);
+        text.setCharacterSize(16);
+        text.setFillColor(textColor);
+        text.setPosition(pos);
+    }
+
+    bool contains(const Vector2i& point) const override {
+        FloatRect bounds = text.getGlobalBounds();
+        return bounds.contains(static_cast<float>(point.x), static_cast<float>(point.y));
+    }
+
+    void setText(const string& newText) {
+        text.setString(newText);
+    }
+
+    void draw(RenderWindow& window) override {
+        if (isVisible) {
+            window.draw(text);
+        }
     }
 };
+    
 
 // Button class
 class Button : public UIElement {

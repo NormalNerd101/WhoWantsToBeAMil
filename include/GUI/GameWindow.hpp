@@ -72,16 +72,26 @@ private:
     // Questions and Answers from database
     vector<Question> questions;
     size_t currentIndex = 0;
-    
+
+
+    // Tracking texts in top-right panel
+    Font fontTracking;
+    SimpleText* questionTracking;
+    SimpleText* prizeTracking;
 
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
         // Create the main window
-        window.create(VideoMode(1030, 600), "Who wants to be a FUCKING MILLIONAIRE, ey?", Style::Titlebar|Style::Close);
+        window.create(VideoMode(1200, 600), "Who wants to be a FUCKING MILLIONAIRE, ey?", Style::Titlebar|Style::Close);
         window.setFramerateLimit(60);
         
         // Load font
         if (!font.loadFromFile("assets/fonts/LiberationSans-Regular.ttf")) {
+            throw runtime_error("Could not load font");
+        }
+
+        // Load font for tracking texts
+        if (!fontTracking.loadFromFile("assets/fonts/LiberationSans-Bold.ttf")) {
             throw runtime_error("Could not load font");
         }
 
@@ -112,7 +122,7 @@ public:
             Color(140, 206, 242, 255),              // Color
             "Question Panel"                        // Name
         );
-        
+
         // Center bottom panel for answers
         panels.emplace_back(
             Vector2f(220, 300),                     // Position
@@ -121,15 +131,41 @@ public:
             "Answer Options Panel"                  // Name
         );
         
-        // Right panel for prize board
+        // Panel for prize board
         panels.emplace_back(
             Vector2f(830, 10),                      // Position
-            Vector2f(190, 580),                     // Size
+            Vector2f(160, 580),                     // Size
             Color(218, 112, 112, 255),              // Color
             "Prize Board Panel"                     // Name
         );
+
+        // Panel for tracking questions and prizes.
+        panels.emplace_back(
+            Vector2f(995, 10),                     // Position
+            Vector2f(190, 580),                      // Size
+            Color(255, 238, 88, 255),              // Color
+            "Question Tracking Panel"               // Name
+        );
+
         
         // Create UI elements
+        // Tracking texts in top-right panel
+        questionTracking = new SimpleText(
+            Vector2f(1000, 10),                     // Position
+            Vector2f(175, 20),                      // Size
+            &fontTracking,                          // Font
+            "Question: ",                    // Default text
+            "Question Tracking Text"                // Name
+        );
+
+        prizeTracking = new SimpleText(
+            Vector2f(1000, 30),                     // Position
+            Vector2f(175, 100),                      // Size
+            &fontTracking,                           // Font
+            "Prize: ",                       // Default text
+            "Prize Tracking Text"                   // Name
+        );
+
         // Question box in center top panel
         questionBox = new TextBox(
             Vector2f(240, 30),                      // Position
@@ -316,6 +352,10 @@ private:
 
         timer->draw(window);
         prizeBoard->draw(window);
+
+        // Draw tracking texts
+        questionTracking->draw(window);
+        prizeTracking->draw(window);
         
         window.display();
     }
