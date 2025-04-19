@@ -77,8 +77,7 @@ public:
     
     void setText(const string& newText) {
         content = newText;
-        text.setString(content);
-        centerText();
+        fitAndWrapText();
     }
     
 private:
@@ -88,6 +87,55 @@ private:
             position.x + (size.x - textBounds.width) / 2.0f,
             position.y + (size.y - textBounds.height) / 2.0f - textBounds.top
         );
+    }
+
+    void fitAndWrapText() {
+        const float padding = 10.0f;
+        float maxWidth = size.x - 2 * padding;
+        float maxHeight = size.y - 2 * padding;
+    
+        text.setCharacterSize(24); // Reset to default size first
+        unsigned int characterSize = text.getCharacterSize();
+    
+        std::string wrappedText = content;
+        bool fits = false;
+    
+        while (characterSize > 5 && !fits) {
+            text.setCharacterSize(characterSize);
+            text.setString(wrappedText);
+    
+            // Wrap text
+            std::string finalText;
+            std::string currentLine;
+            std::istringstream words(content);
+            std::string word;
+    
+            while (words >> word) {
+                std::string testLine = currentLine + (currentLine.empty() ? "" : " ") + word;
+                text.setString(testLine);
+                if (text.getLocalBounds().width > maxWidth) {
+                    if (!currentLine.empty()) {
+                        finalText += currentLine + '\n';
+                    }
+                    currentLine = word;
+                } else {
+                    currentLine = testLine;
+                }
+            }
+            finalText += currentLine;
+    
+            text.setString(finalText);
+    
+            // Check if total height fits
+            FloatRect bounds = text.getLocalBounds();
+            if (bounds.height <= maxHeight) {
+                fits = true;
+            } else {
+                characterSize--; // Shrink and try again
+            }
+        }
+    
+        centerText();
     }
 };
 
