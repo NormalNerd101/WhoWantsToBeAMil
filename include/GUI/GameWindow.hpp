@@ -11,7 +11,7 @@
 #include <json.hpp>
 
 // importing windows
-#include <ResponseWindow.hpp>
+#include <FailResponseWindow.hpp>
 
 using namespace std;
 using namespace sf;
@@ -274,8 +274,15 @@ public:
         // Reset the game state
         currentIndex = 0;
         timer->reset(31);
+        timer->start();
         prizeBoard->setCurrentTier(1);
-        
+
+        loadDataFromJson(questions);
+
+        // Reset tracking texts
+        questionTracking->setText("Question: " + to_string(prizeBoard->getCurrentTier()));
+        prizeTracking->setText("Prize: " + prizeBoard->getCurrentTierAmount(prizeBoard->getCurrentTier()));
+
         // Reset UI elements
         questionBox->setText(questions[currentIndex].getQuestionText());
         for (int i = 0; i < 4; i++) {
