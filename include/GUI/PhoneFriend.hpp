@@ -9,7 +9,7 @@ const std::string WINDOW_TITLE = "Phone A Friend";
 
 // Asset paths
 // TODO: Replace these with your actual asset paths
-const std::string FRIEND_IMAGE_PATH = "include/GUI/assets/friend.png";  // Place your friend image here
+const std::string FRIEND_IMAGE_PATH = "assets/friend.png";  // Place your friend image here
 const string CORRECT_ANSWER = "C.";  // You can modify this to be A, B, C, or D
 
 class PhoneFriendApp {
