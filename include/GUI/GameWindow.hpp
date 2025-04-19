@@ -441,6 +441,10 @@ private:
         
         poll.setPercentages(percentages);
         poll.run();
+
+        // Hide the Audience Poll button
+        audiencePollBtn->setVisibility(false);
+        audiencePollBtn->draw(window);
     }
     
 
@@ -448,6 +452,10 @@ private:
         PhoneFriendApp phoneFriend;
         phoneFriend.setCorrectAnswer(questions[currentIndex].getCorrectOption());
         phoneFriend.run();
+
+        // Hide the Phone a Friend button
+        phoneFriendBtn->setVisibility(false);
+        phoneFriendBtn->draw(window);
     }
 
     void handleFiftyFifty() {
@@ -470,6 +478,9 @@ private:
                 button->draw(window);
             }
         }
+        // Hide the Fifty-Fifty button
+        fiftyFiftyBtn->setVisibility(false);
+        fiftyFiftyBtn->draw(window);
     }
 
     void MovetoNextQuestion() {
