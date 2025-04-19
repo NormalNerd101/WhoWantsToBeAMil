@@ -6,7 +6,7 @@
 #include <AudiencePoll.hpp>
 #include <PhoneFriend.hpp>
 
-// import other classes
+// import relevant classes
 #include <Questions.hpp>
 #include <json.hpp>
 
