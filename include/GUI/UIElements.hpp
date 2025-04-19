@@ -398,7 +398,7 @@ public:
     PrizeTierBoard(const Vector2f& pos, const Vector2f& sz, Font* fnt, const string& elementName)
         : UIElement(pos, sz, elementName),
             font(fnt),
-            currentTier(0)
+            currentTier(1)
     {
         // Initialize prize tiers (customize as needed)
         tiers = {
@@ -472,11 +472,12 @@ public:
         for (auto& t : tiers) {
             t.isCurrentQuestion = false;
         }
-        
+    
         // Set new current tier
         if (tier >= 1 && tier <= 15) {
             tiers[15 - tier].isCurrentQuestion = true;
-            
+            this->currentTier = tier;  
+    
             // Update text colors
             for (size_t i = 0; i < tiers.size(); i++) {
                 if (tiers[i].isCurrentQuestion) {
@@ -488,5 +489,18 @@ public:
                 }
             }
         }
+    }
+    
+    // Get the amount for the current tier
+    string getCurrentTierAmount(int tier) {
+        if (tier >= 1 && tier <= 15) {
+            return this->tiers[15 - tier].amount;
+        } else {
+            return "Invalid tier";
+        }
+    }
+
+    int getCurrentTier() {
+        return this->currentTier;
     }
 };

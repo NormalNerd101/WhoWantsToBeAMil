@@ -149,12 +149,21 @@ public:
 
         
         // Create UI elements
+
+        // Prize board in right panel
+        prizeBoard = new PrizeTierBoard(
+            Vector2f(830, 10),                      // Position
+            Vector2f(190, 580),                     // Size
+            &font,                                  // Font
+            "Prize Tier Board"                      // Name
+        );
+
         // Tracking texts in top-right panel
         questionTracking = new SimpleText(
             Vector2f(1000, 10),                     // Position
             Vector2f(175, 20),                      // Size
             &fontTracking,                          // Font
-            "Question: ",                    // Default text
+            "Question: " + to_string(prizeBoard->getCurrentTier()),                    // Default text
             "Question Tracking Text"                // Name
         );
 
@@ -162,7 +171,7 @@ public:
             Vector2f(1000, 30),                     // Position
             Vector2f(175, 100),                      // Size
             &fontTracking,                           // Font
-            "Prize: ",                       // Default text
+            "Prize: " + prizeBoard->getCurrentTierAmount(prizeBoard->getCurrentTier()),                       // Default text
             "Prize Tracking Text"                   // Name
         );
 
@@ -235,14 +244,6 @@ public:
         fiftyFiftyBtn->setIdleColor(Color(255, 152, 0, 100));
         fiftyFiftyBtn->setHoverColor(Color(255, 152, 0, 77));
         fiftyFiftyBtn->setActiveColor(Color(140, 190, 140));
-        
-        // Prize board in right panel
-        prizeBoard = new PrizeTierBoard(
-            Vector2f(830, 10),                      // Position
-            Vector2f(190, 580),                     // Size
-            &font,                                  // Font
-            "Prize Tier Board"                      // Name
-        );
     }
     
     ~Application() {
@@ -340,6 +341,7 @@ private:
         }
         
         // Draw UI elements
+        // Draw question box and answer buttons
         questionBox->draw(window);
         for (auto button : answerButtons) {
             button->draw(window);
@@ -485,6 +487,11 @@ private:
         }
         timer->reset(31);
         timer->start();
+
+        // Update tracking texts
+        prizeBoard->setCurrentTier(prizeBoard->getCurrentTier() + 1);
+        questionTracking->setText("Question: " + to_string(prizeBoard->getCurrentTier()));
+        prizeTracking->setText("Prize: " + prizeBoard->getCurrentTierAmount(prizeBoard->getCurrentTier()));
     }
 };
 
