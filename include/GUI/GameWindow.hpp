@@ -139,7 +139,7 @@ public:
             "Question Text"                         // Name
         );
         
-        // Answer buttons in center bottom panel
+        // Initiate answer buttons in center bottom panel
         string answerOptions[4] = {};
         for (int i = 0; i < 4; i++) {
             answerOptions[i] = questions[currentIndex].getOptions()[i];
@@ -150,7 +150,7 @@ public:
                 Vector2f(240, 320 + i * 65),        // Position (stacked vertically)
                 Vector2f(560, 55),                  // Size
                 &font,                              // Font
-                answerOptions[i],                   // Text
+                string(1,'A' + i) + ". " + answerOptions[i],                   // Text
                 "Answer " + to_string(i + 1)        // Name
             );
             answerButtons.push_back(btn);
@@ -273,7 +273,7 @@ private:
                 cout << "Selected answer: " << answerButtons[i]->getName() << endl;
                 
                 // Check if the selected answer is correct
-                if (answerButtons[i]->gettext() == questions[currentIndex].getCorrectOption()) {
+                if (isContained(answerButtons[i]->gettext(), questions[currentIndex].getCorrectOption())) {
                     currentIndex++;
                     if (currentIndex < questions.size()) {
                         MovetoNextQuestion();
@@ -322,30 +322,34 @@ private:
 
     // Add any additional methods for handling game logic, events, etc.
 
+    bool isContained(const string& mainString, const string& subString) {
+        return mainString.find(subString) != string::npos;
+    }
+
     void handleAudiencePoll() {
         // Use proper random number generation
-        std::random_device rd;
-        std::mt19937 gen(rd());
+        random_device rd;
+        mt19937 gen(rd());
         
         BarChartPoll poll;
-        std::vector<float> percentages(4, 0.0f);
+        vector<float> percentages(4, 0.0f);
         int correctIndex = questions[currentIndex].getCorrectOptionIndex();
         
         // Create a more natural distribution
         // Dirichlet-like distribution for audience polls
-        std::vector<float> weights(4, 1.0f);
+        vector<float> weights(4, 1.0f);
         
         // Give the correct answer a variable advantage
         // between 1.5x and 3x more likely to be chosen
-        std::uniform_real_distribution<float> advantageDist(1.5f, 3.0f);
+        uniform_real_distribution<float> advantageDist(1.5f, 3.0f);
         weights[correctIndex] *= advantageDist(gen);
         
         // Generate raw values based on gamma distribution for each option
-        std::vector<float> rawValues(4);
+        vector<float> rawValues(4);
         float sum = 0.0f;
         
         for (int i = 0; i < 4; ++i) {
-            std::gamma_distribution<float> gammaDist(weights[i], 1.0f);
+            gamma_distribution<float> gammaDist(weights[i], 1.0f);
             rawValues[i] = gammaDist(gen);
             sum += rawValues[i];
         }
@@ -356,7 +360,7 @@ private:
         }
         
         // Optional: Add small random noise to make it look more "human"
-        std::normal_distribution<float> noiseDist(0.0f, 0.5f);
+        normal_distribution<float> noiseDist(0.0f, 0.5f);
         
         // Add noise but preserve sum of 100%
         float noiseSum = 0.0f;
@@ -371,25 +375,25 @@ private:
             percentages[i] -= noiseSum / 4.0f;
             
             // Ensure no negative percentages
-            percentages[i] = std::max(0.0f, percentages[i]);
+            percentages[i] = max(0.0f, percentages[i]);
         }
         
         // Final normalization to exactly 100%
-        sum = std::accumulate(percentages.begin(), percentages.end(), 0.0f);
+        sum = accumulate(percentages.begin(), percentages.end(), 0.0f);
         for (int i = 0; i < 4; ++i) {
             percentages[i] = (percentages[i] / sum) * 100.0f;
         }
         
         // Round to one decimal place for display
         for (int i = 0; i < 4; ++i) {
-            percentages[i] = std::round(percentages[i] * 10.0f) / 10.0f;
+            percentages[i] = round(percentages[i] * 10.0f) / 10.0f;
         }
         
         // Adjust final rounding errors if needed
-        float finalSum = std::accumulate(percentages.begin(), percentages.end(), 0.0f);
-        if (std::abs(finalSum - 100.0f) > 0.1f) {
+        float finalSum = accumulate(percentages.begin(), percentages.end(), 0.0f);
+        if (abs(finalSum - 100.0f) > 0.1f) {
             // Add the difference to the largest value to maintain 100% sum
-            int largestIdx = std::max_element(percentages.begin(), percentages.end()) - percentages.begin();
+            int largestIdx = max_element(percentages.begin(), percentages.end()) - percentages.begin();
             percentages[largestIdx] += (100.0f - finalSum);
         }
         
@@ -406,10 +410,9 @@ private:
 
     void handleFiftyFifty() {
         // we'll remove two wrong answers from the answer buttons.
-        string correctAnswer = questions[currentIndex].getCorrectOption();
         vector<Button*> wrongAnswers;
         for (auto button : answerButtons) {
-            if (button->gettext().find(correctAnswer) == string::npos) {
+            if (!isContained(button->gettext(), questions[currentIndex].getCorrectOption())) {
                 wrongAnswers.push_back(button);
             }
         }
@@ -431,7 +434,7 @@ private:
         questionBox->setText(questions[currentIndex].getQuestionText());
         vector<string> options = questions[currentIndex].getOptions();
         for (int i = 0; i < 4; i++) {
-            answerButtons[i]->setText(questions[currentIndex].getOptions()[i]);
+            answerButtons[i]->setText(string(1, 'A' + i) + ". " + questions[currentIndex].getOptions()[i]);
         }
 
         // redraw the UI elements
