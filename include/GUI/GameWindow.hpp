@@ -443,6 +443,8 @@ private:
             button->setVisibility(true); // Make sure all buttons are visible
             button->draw(window);
         }
+        timer->reset(31);
+        timer->start();
     }
 };
 
