@@ -273,6 +273,10 @@ public:
     }
 
     void restart() {
+        // Recreate the main game window
+        window.create(VideoMode(1200, 600), "Who Wants to Be a Millionaire", Style::Titlebar | Style::Close);
+        window.setFramerateLimit(60);
+
         // Reset the game state
         currentIndex = 0;
         timer->reset(31);
@@ -296,6 +300,8 @@ public:
         audiencePollBtn->setVisibility(true);
         phoneFriendBtn->setVisibility(true);
         fiftyFiftyBtn->setVisibility(true);
+
+        run();
     }
     
 private:
@@ -362,18 +368,21 @@ private:
     }
 
     void quitGame() {
+        window.close();
         FailResponseWindow* responseWindow = new FailResponseWindow();
         
         responseWindow->setOnRevengeButtonClicked([this]() {
             // What you want to happen when the button is clicked
-            restart();  // For example, restart the game
+            restart(); 
         });
         
         responseWindow->open();  // Show the window
         delete responseWindow;   // Clean up when done
+        window.close();
     }
 
     void restartGame() {
+        window.close();
         WinResponseWindow* responseWindow = new WinResponseWindow();
         responseWindow->setOnRoundTwoButtonClicked([this]() {
             restart();
