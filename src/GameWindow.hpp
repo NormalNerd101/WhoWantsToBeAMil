@@ -11,7 +11,6 @@
 #include <json.hpp>
 
 // importing windows
-#include <EventManager.hpp>
 #include <WinResponseWindow.hpp>
 #include <FailResponseWindow.hpp>
 
@@ -86,15 +85,6 @@ private:
 
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
-
-        // register for callback events
-        EventManager::getInstance().registerCallback("restartGame", [this]() {
-            this->restart();
-        });
-        
-        EventManager::getInstance().registerCallback("quitGame", [this]() {
-            this->restart();
-        });
 
         // Create the main window
         window.create(VideoMode(1200, 600), "Who wants to be a GODDAMN MILLIONAIRE, ey?", Style::Titlebar|Style::Close);
