@@ -1,0 +1,185 @@
+{
+  "response_code": 0,
+  "results": [
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Animals",
+      "question": "Which of the following is another name for the 'Poecilotheria Metallica Tarantula'?",
+      "correct_answer": "Gooty",
+      "incorrect_answers": [
+        "Hopper",
+        "Silver Stripe",
+        "Woebegone"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Entertainment: Comics",
+      "question": "What is the real hair colour of the mainstream comic book version (Earth-616) of Daredevil?",
+      "correct_answer": "Blonde",
+      "incorrect_answers": [
+        "Auburn",
+        "Brown",
+        "Black"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Entertainment: Video Games",
+      "question": "In World of Warcraft lore, who organized the creation of the Paladins?",
+      "correct_answer": "Alonsus Faol",
+      "incorrect_answers": [
+        "Uther the Lightbringer",
+        "Alexandros Mograine",
+        "Sargeras, The Daemon Lord"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Science & Nature",
+      "question": "What physics principle relates the net electric flux out of a closed surface to the charge enclosed by that surface?",
+      "correct_answer": "Gauss's Law",
+      "incorrect_answers": [
+        "Faraday's Law",
+        "Ampere's Law",
+        "Biot-Savart Law"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Entertainment: Video Games",
+      "question": "In the Zombies mode of 'Call of Duty: Black Ops', what is the 'Pack-A-Punched' version of the 'Galil' called?",
+      "correct_answer": "Lamentation",
+      "incorrect_answers": [
+        "Galvanized Atomic Lead Insertion Liquidator",
+        "Gabig",
+        "Predictive Death Wish"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "History",
+      "question": "Spain was formed in 1469 with the marriage of Isabella I of Castile and Ferdinand II of what other Iberian kingdom?",
+      "correct_answer": "Aragon",
+      "incorrect_answers": [
+        "Galicia",
+        "Leon",
+        "Navarre"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Mythology",
+      "question": "Talos, the mythical giant bronze man, was the protector of which island?",
+      "correct_answer": "Crete",
+      "incorrect_answers": [
+        "Sardinia",
+        "Sicily",
+        "Cyprus"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Vehicles",
+      "question": "What kind of train was Stepney, a train on the Bluebell Railway notable for his appearance in 'The Railway Series'?",
+      "correct_answer": "LB&SCR A1X",
+      "incorrect_answers": [
+        "LB&SCR E2",
+        "LB&SCR J1",
+        "LB&SCR D1"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Entertainment: Music",
+      "question": "'All the Boys' by Panic! At the Disco was released as a bonus track on what album?",
+      "correct_answer": "Too Weird To Live, Too Rare To Die!",
+      "incorrect_answers": [
+        "A Fever You Can't Sweat Out",
+        "Death Of A Bachelor",
+        "Vices & Virtues"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "General Knowledge",
+      "question": "The word 'abulia' means which of the following?",
+      "correct_answer": "The inability to make decisions",
+      "incorrect_answers": [
+        "The inability to stand up",
+        "The inability to concentrate on anything",
+        "A feverish desire to rip one's clothes off"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Entertainment: Television",
+      "question": "Which of these voices wasn't a choice for the House AI in 'The Simpsons Treehouse of Horror' short, House of Whacks?",
+      "correct_answer": "George Clooney",
+      "incorrect_answers": [
+        "Matthew Perry",
+        "Dennis Miller",
+        "Pierce Brosnan"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Entertainment: Board Games",
+      "question": "The board game 'Ra' was designed by which designer? ",
+      "correct_answer": "Reiner Knizia",
+      "incorrect_answers": [
+        "Bruno Cathala",
+        "Uwe Rosenburg",
+        "Allison Kline"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Entertainment: Japanese Anime & Manga",
+      "question": "'Silhouette', a song performed by the group 'KANA-BOON' is featured as the sixteenth opening of which anime?",
+      "correct_answer": "Naruto: Shippuden",
+      "incorrect_answers": [
+        "One Piece",
+        "Naruto",
+        "Gurren Lagann"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Entertainment: Film",
+      "question": "In Big Hero 6, what were Baymax's motions modeled after?",
+      "correct_answer": "Baby penguins",
+      "incorrect_answers": [
+        "Baby monkeys",
+        "Baby ostriches",
+        "Baby bears"
+      ]
+    },
+    {
+      "type": "multiple",
+      "difficulty": "hard",
+      "category": "Science: Computers",
+      "question": "Which kind of algorithm is Ron Rivest not famous for creating?",
+      "correct_answer": "Secret sharing scheme",
+      "incorrect_answers": [
+        "Hashing algorithm",
+        "Asymmetric encryption",
+        "Stream cipher"
+      ]
+    }
+  ]
+}
