@@ -378,7 +378,6 @@ private:
         
         responseWindow->open();  // Show the window
         delete responseWindow;   // Clean up when done
-        window.close();
     }
 
     void restartGame() {
