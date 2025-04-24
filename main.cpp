@@ -1,7 +1,6 @@
 #include <GameWindow.hpp>
 
 
-
 int main() {
     try {
         Application app;

@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Wall -Iinclude -Isrc/
-LIBS = -lsfml-graphics -lsfml-window -lsfml-system
+LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 SRC = main.cpp
 OUT = main
 

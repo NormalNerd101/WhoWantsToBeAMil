@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <UIElements.hpp>
 
 // import LifeLineSupports
@@ -82,6 +83,10 @@ private:
     Font fontTracking;
     SimpleText* questionTracking;
     SimpleText* prizeTracking;
+
+    // Sound elements
+    SoundBuffer buffer;
+    Sound sound;
 
 public:
     Application() : backgroundColor(Color(50, 50, 50)) {
@@ -262,6 +267,15 @@ public:
     }
     
     void run() {
+
+        if (!buffer.loadFromFile("assets/sounds/uia_cat_spinning.wav")) {
+            throw runtime_error("Could not load sound file");
+        }
+        sound.setBuffer(buffer);
+        sound.setLoop(true);
+        sound.setVolume(50);
+        sound.play();
+        
         // Start the timer
         timer->start();
         
@@ -378,6 +392,8 @@ private:
         
         responseWindow->open();  // Show the window
         delete responseWindow;   // Clean up when done
+        sound.stop();
+        window.close();
     }
 
     void restartGame() {
@@ -389,6 +405,8 @@ private:
 
         responseWindow->open();
         delete responseWindow;
+        sound.stop();
+        window.close();
     }
     
     void update() {
